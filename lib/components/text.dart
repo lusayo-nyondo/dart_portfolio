@@ -1,5 +1,11 @@
 import 'package:jaspr/jaspr.dart';
 
+/// An enum for specifying text direction.
+enum TextDirection {
+  ltr,
+  rtl,
+}
+
 /// An immutable style describing how to format text.
 ///
 /// Mimics Flutter's [TextStyle] class.
@@ -154,6 +160,89 @@ class TextComponent extends StatelessComponent {
       // Use span for inline text, or p for block text if preferred
       styles: finalStyles,
       [Text(text)], // Correct usage for Jaspr's text node
+    );
+  }
+}
+
+class DefaultTextStyle extends StatelessComponent {
+  /// The style to apply to descendant text.
+  final TextStyle style;
+
+  /// How the text should be aligned.
+  final TextAlign? textAlign;
+
+  /// Whether the text should break at soft line breaks.
+  final bool? softWrap;
+
+  /// How visual overflow should be handled.
+  final TextOverflow? overflow;
+
+  /// An optional maximum number of lines for the text to span,
+  /// when used in conjunction with [overflow].
+  final int? maxLines;
+
+  /// The widget below this widget in the tree.
+  final Component child;
+
+  const DefaultTextStyle({
+    super.key,
+    required this.style,
+    this.textAlign,
+    this.softWrap,
+    this.overflow,
+    this.maxLines,
+    required this.child,
+  });
+
+  @override
+  build(BuildContext context) sync* {
+    // Collect all CSS properties, similar to TextComponent
+    final Map<String, String> cssProperties = {};
+
+    // Add base style properties
+    cssProperties.addAll(style.toCssMap());
+
+    // Handle textAlign
+    if (textAlign != null) {
+      cssProperties['text-align'] = textAlign!.value;
+    }
+
+    // Handle softWrap
+    if (softWrap == false) {
+      cssProperties['white-space'] = WhiteSpace.noWrap.value;
+    } else if (softWrap == true) {
+      cssProperties['white-space'] = WhiteSpace.normal.value;
+    }
+
+    // Handle overflow and maxLines.
+    // Note: Line clamping (-webkit-line-clamp) often needs to be on the
+    // element directly containing the text/spans, not just inherited.
+    // So, while we'll set it here, TextComponent will also handle it for itself.
+    // This DefaultTextStyle mostly covers inheritable text properties.
+    if (overflow != null || maxLines != null) {
+      cssProperties['overflow'] = 'hidden';
+
+      if (maxLines != null && maxLines! > 0) {
+        cssProperties['display'] = '-webkit-box';
+        cssProperties['-webkit-line-clamp'] = maxLines!.toString();
+        cssProperties['-webkit-box-orient'] = 'vertical';
+        cssProperties['white-space'] = WhiteSpace.normal.value;
+
+        if (overflow == TextOverflow.ellipsis) {
+          cssProperties['text-overflow'] = TextOverflow.ellipsis.value;
+        }
+      } else if (overflow == TextOverflow.ellipsis) {
+        cssProperties['white-space'] = WhiteSpace.noWrap.value;
+        cssProperties['text-overflow'] = TextOverflow.ellipsis.value;
+      } else if (overflow == TextOverflow.clip) {
+        cssProperties['text-overflow'] = TextOverflow.clip.value;
+      }
+    }
+
+    yield span(
+      // Use a span or div as the container for inheritance
+      styles: Styles(raw: cssProperties),
+      [child],
     );
   }
 }
