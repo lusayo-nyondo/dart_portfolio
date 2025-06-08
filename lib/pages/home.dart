@@ -1,6 +1,7 @@
 import 'package:jaspr/jaspr.dart';
 
-import 'package:dart_portfolio/components/button.dart';
+import 'package:dart_portfolio/components/components.dart';
+
 import 'package:dart_portfolio/components/counter.dart';
 
 @client
@@ -29,10 +30,14 @@ class HomeState extends State<Home> {
   @override
   Iterable<Component> build(BuildContext context) sync* {
     yield section([
-      h1([text('Hello, World!')]),
       p([text('This is my site')]),
       const Counter(),
-      const Button(),
+      const SizedBox(height: 16),
+      const Divider(
+        color: Colors.gold,
+      ),
+      const SizedBox(height: 8),
+      const Button(child: Text('Material Button')),
     ]);
   }
 }

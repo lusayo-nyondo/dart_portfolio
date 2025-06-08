@@ -1,0 +1,9 @@
+{
+    "configurations": [
+        {
+            "name": "Jaspr",
+            "request": "launch",
+            "type": "jaspr"
+        }
+    ]
+}
