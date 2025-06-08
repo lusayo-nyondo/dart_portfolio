@@ -1,4 +1,4 @@
-part of 'components.dart';
+import 'package:jaspr/jaspr.dart';
 
 class Button extends StatelessComponent {
   final Component child;

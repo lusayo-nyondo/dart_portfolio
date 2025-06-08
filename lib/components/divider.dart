@@ -1,14 +1,10 @@
-part of 'components.dart';
+import 'package:jaspr/jaspr.dart';
 
 enum DividerOrientation { vertical, horizontal }
 
-class Divider extends StatelessComponent
-    with HasTailwindClassCollector, BackgroundColorMixin {
-  @override
+class Divider extends StatelessComponent {
   final Color? backgroundColor;
   final DividerOrientation orientation;
-
-  final TailwindClassCollector _classCollector = const TailwindClassCollector();
 
   const Divider(
       {super.key,
@@ -18,9 +14,9 @@ class Divider extends StatelessComponent
 
   @override
   build(BuildContext context) sync* {
-    _classCollector.registerWithGlobalTracker();
     yield hr(
-      classes: 'border-0 h-1 my-4 ${_classCollector.className}',
+      classes: 'border-0 h-1 my-4 bg-gold',
+      styles: Styles(backgroundColor: backgroundColor),
     );
   }
 }

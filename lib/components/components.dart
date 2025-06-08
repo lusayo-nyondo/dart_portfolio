@@ -1,8 +1,8 @@
-import 'package:dart_portfolio/components/tailwindcss/tailwindcss.dart';
-import 'package:jaspr/jaspr.dart';
-
-import 'mixins/mixins.dart';
-
-part 'button.dart';
-part 'divider.dart';
-part 'sized_box.dart';
+export 'button.dart';
+export 'divider.dart';
+export 'sized_box.dart';
+export 'flexbox.dart';
+export 'column.dart';
+export 'row.dart';
+export 'flexible.dart';
+export 'expanded.dart';
