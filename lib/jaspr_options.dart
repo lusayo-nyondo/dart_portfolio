@@ -5,10 +5,9 @@
 // Generated with jaspr_builder
 
 import 'package:jaspr/jaspr.dart';
-import 'package:dart_portfolio/components/counter.dart' as prefix0;
-import 'package:dart_portfolio/components/header.dart' as prefix1;
-import 'package:dart_portfolio/pages/about.dart' as prefix2;
-import 'package:dart_portfolio/pages/home.dart' as prefix3;
+import 'package:dart_portfolio/components/header.dart' as prefix0;
+import 'package:dart_portfolio/pages/about.dart' as prefix1;
+import 'package:dart_portfolio/pages/home.dart' as prefix2;
 
 /// Default [JasprOptions] for use with your jaspr project.
 ///
@@ -28,13 +27,9 @@ import 'package:dart_portfolio/pages/home.dart' as prefix3;
 /// ```
 JasprOptions get defaultJasprOptions => JasprOptions(
   clients: {
-    prefix2.About: ClientTarget<prefix2.About>('pages/about'),
+    prefix1.About: ClientTarget<prefix1.About>('pages/about'),
 
-    prefix3.Home: ClientTarget<prefix3.Home>('pages/home'),
+    prefix2.Home: ClientTarget<prefix2.Home>('pages/home'),
   },
-  styles: () => [
-    ...prefix0.CounterState.styles,
-    ...prefix1.Header.styles,
-    ...prefix2.About.styles,
-  ],
+  styles: () => [...prefix0.Header.styles, ...prefix1.About.styles],
 );
