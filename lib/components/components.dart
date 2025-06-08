@@ -1,3 +1,4 @@
+import 'package:dart_portfolio/components/tailwindcss/tailwindcss.dart';
 import 'package:jaspr/jaspr.dart';
 
 import 'mixins/mixins.dart';

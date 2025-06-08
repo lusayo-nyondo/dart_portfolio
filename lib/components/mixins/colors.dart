@@ -1,9 +1,6 @@
 part of 'mixins.dart';
 
 enum _CssColorProperty {
-  color(
-      cssName: 'color',
-      tailwindPrefix: ''), // No prefix for text color in Tailwind
   backgroundColor(cssName: 'background-color', tailwindPrefix: 'bg-'),
   borderColor(cssName: 'border-color', tailwindPrefix: 'border-'),
   borderTopColor(cssName: 'border-top-color', tailwindPrefix: 'border-t-'),
@@ -32,188 +29,195 @@ enum _CssColorProperty {
       {required this.cssName, required this.tailwindPrefix});
 }
 
+// Helper function to get Tailwind class name from a Jaspr Color
+// This assumes TailwindColor.fromJasprColor can handle standard Jaspr Color
 String? _getTailwindClassName(Color color, _CssColorProperty propertyType) {
   if (propertyType.tailwindPrefix == null) {
-    return null;
+    return null; // This property doesn't have a direct Tailwind class
   }
 
+  // Ensure your TailwindColor.fromJasprColor method correctly converts
+  // a Jaspr Color to your TailwindColor instance, especially for arbitrary values.
   TailwindColor tailwindColor = TailwindColor.fromJasprColor(color);
+
+  // For named CSS colors or arbitrary hex values, use bracket notation.
+  // For standard Tailwind colors (like red-500), just append.
+  // This logic needs to be robust enough for all cases.
+  // Assuming tailwindColor.className already handles this (e.g., 'red-500' or '[#FFD700]')
   return '${propertyType.tailwindPrefix}${tailwindColor.className}';
 }
 
-String? _getColorCssValue(Color color, _CssColorProperty propertyType) {
-  return "#${(color as TailwindColor).toJasprColor()?.value}";
+// --- Base Mixin for providing the Collector and Common Logic ---
+/// This mixin must be applied to a Jaspr Component and provides
+/// access to the [TailwindClassCollector].
+///
+/// The component must call [initTailwindCollector] in its constructor.
+mixin HasTailwindClassCollector on Component {
+  /// The collector instance for this specific component.
+  TailwindClassCollector get _classCollector;
+
+  /// Internal helper to register a Tailwind class.
+  /// All concrete property mixins will use this.
+  void _registerTailwindClass(Color? color, _CssColorProperty propertyType) {
+    if (color == null) return; // No color, no class to register
+
+    final String? className = _getTailwindClassName(color, propertyType);
+    if (className != null && className.isNotEmpty) {
+      _classCollector.addClass(className);
+    } else {
+      // Handle cases where a property has no direct Tailwind class
+      // (e.g., scrollbarColor), or if the color itself doesn't map.
+      // You might log a warning.
+      print(
+          'Warning: No Tailwind class generated for ${propertyType.cssName} with color ${color.value}');
+    }
+  }
 }
 
-// --- Base Mixin for all Color Properties ---
-mixin BaseColorPropertyMixin {
-  /// Internal helper to get the Tailwind class name for a given color property.
-  /// Needs to be overridden by concrete mixins to provide the correct [Color] instance
-  /// and [_CssColorProperty] type.
-  String? _getTailwindClass(Color? color, _CssColorProperty propertyType) {
-    if (color == null) return null;
-    return _getTailwindClassName(color, propertyType);
+// --- Concrete Color Property Mixins ---
+
+/// Mixin for handling background color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin BackgroundColorMixin on HasTailwindClassCollector {
+  /// The background color for the component.
+  Color? get backgroundColor;
+
+  /// **Registers** the appropriate Tailwind CSS background color class
+  /// with the component's [TailwindClassCollector].
+  /// This method should be called by the component after its constructor.
+  void registerBackgroundColorClasses() {
+    _registerTailwindClass(backgroundColor, _CssColorProperty.backgroundColor);
+  }
+}
+
+/// Mixin for handling border color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin BorderColorMixin on HasTailwindClassCollector {
+  Color? get borderColor;
+
+  void registerBorderColorClasses() {
+    _registerTailwindClass(borderColor, _CssColorProperty.borderColor);
+  }
+}
+
+/// Mixin for handling border top color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin BorderTopColorMixin on HasTailwindClassCollector {
+  Color? get borderTopColor;
+
+  void registerBorderTopColorClasses() {
+    _registerTailwindClass(borderTopColor, _CssColorProperty.borderTopColor);
+  }
+}
+
+/// Mixin for handling border right color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin BorderRightColorMixin on HasTailwindClassCollector {
+  Color? get borderRightColor;
+
+  void registerBorderRightColorClasses() {
+    _registerTailwindClass(
+        borderRightColor, _CssColorProperty.borderRightColor);
+  }
+}
+
+/// Mixin for handling border bottom color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin BorderBottomColorMixin on HasTailwindClassCollector {
+  Color? get borderBottomColor;
+
+  void registerBorderBottomColorClasses() {
+    _registerTailwindClass(
+        borderBottomColor, _CssColorProperty.borderBottomColor);
+  }
+}
+
+/// Mixin for handling border left color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin BorderLeftColorMixin on HasTailwindClassCollector {
+  Color? get borderLeftColor;
+
+  void registerBorderLeftColorClasses() {
+    _registerTailwindClass(borderLeftColor, _CssColorProperty.borderLeftColor);
+  }
+}
+
+/// Mixin for handling outline color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin OutlineColorMixin on HasTailwindClassCollector {
+  Color? get outlineColor;
+
+  void registerOutlineColorClasses() {
+    _registerTailwindClass(outlineColor, _CssColorProperty.outlineColor);
+  }
+}
+
+/// Mixin for handling caret color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin CaretColorMixin on HasTailwindClassCollector {
+  Color? get caretColor;
+
+  void registerCaretColorClasses() {
+    _registerTailwindClass(caretColor, _CssColorProperty.caretColor);
+  }
+}
+
+/// Mixin for handling text decoration color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin TextDecorationColorMixin on HasTailwindClassCollector {
+  Color? get textDecorationColor;
+
+  void registerTextDecorationColorClasses() {
+    _registerTailwindClass(
+        textDecorationColor, _CssColorProperty.textDecorationColor);
+  }
+}
+
+/// Mixin for handling text emphasis color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin TextEmphasisColorMixin on HasTailwindClassCollector {
+  Color? get textEmphasisColor;
+
+  void registerTextEmphasisColorClasses() {
+    _registerTailwindClass(
+        textEmphasisColor, _CssColorProperty.textEmphasisColor);
+  }
+}
+
+/// Mixin for handling column rule color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin ColumnRuleColorMixin on HasTailwindClassCollector {
+  Color? get columnRuleColor;
+
+  void registerColumnRuleColorClasses() {
+    _registerTailwindClass(columnRuleColor, _CssColorProperty.columnRuleColor);
+  }
+}
+
+/// Mixin for handling accent color.
+/// Requires [HasTailwindClassCollector] to be mixed in before it.
+mixin AccentColorMixin on HasTailwindClassCollector {
+  Color? get accentColor;
+
+  void registerAccentColorClasses() {
+    _registerTailwindClass(accentColor, _CssColorProperty.accentColor);
+  }
+}
+
+// --- Special Cases: Scrollbar Colors ---
+// Tailwind does not have direct utility classes for scrollbar-color.
+// The register methods here will only add a class if a tailwindPrefix is defined
+// for the corresponding _CssColorProperty. If not, a warning is printed.
+mixin ScrollbarColorMixin on HasTailwindClassCollector {
+  Color? get scrollbarColor;
+  Color? get scrollbarTrackColor;
+
+  void registerScrollbarColorClasses() {
+    _registerTailwindClass(scrollbarColor, _CssColorProperty.scrollbarColor);
   }
 
-  /// Internal helper to get the CSS color value for a given color property.
-  /// Needs to be overridden by concrete mixins to provide the correct [Color] instance
-  /// and [_CssColorProperty] type.
-  String? _getCssValue(Color? color, _CssColorProperty propertyType) {
-    if (color == null) return null;
-    return _getColorCssValue(color, propertyType);
+  void registerScrollbarTrackColorClasses() {
+    _registerTailwindClass(
+        scrollbarTrackColor, _CssColorProperty.scrollbarTrackColor);
   }
-}
-
-// --- Specific Color Mixins ---
-
-mixin ColorMixin on BaseColorPropertyMixin {
-  Color? get color;
-
-  String getTailwindClassName() =>
-      _getTailwindClass(color, _CssColorProperty.color) ?? '';
-  String getColorCss() => _getCssValue(color, _CssColorProperty.color) ?? '';
-}
-
-mixin BackgroundColorMixin on BaseColorPropertyMixin {
-  Color? backgroundColor;
-
-  String getTailwindBackgroundColor() =>
-      _getTailwindClass(backgroundColor, _CssColorProperty.backgroundColor) ??
-      '';
-  String getBackgroundColorCss() =>
-      _getCssValue(backgroundColor, _CssColorProperty.backgroundColor) ?? '';
-}
-
-mixin BorderColorMixin on BaseColorPropertyMixin {
-  Color? borderColor;
-
-  String getTailwindBorderColor() =>
-      _getTailwindClass(borderColor, _CssColorProperty.borderColor) ?? '';
-  String getBorderColorCss() =>
-      _getCssValue(borderColor, _CssColorProperty.borderColor) ?? '';
-}
-
-mixin BorderTopColorMixin on BaseColorPropertyMixin {
-  Color? borderTopColor;
-
-  String getTailwindBorderTopColor() =>
-      _getTailwindClass(borderTopColor, _CssColorProperty.borderTopColor) ?? '';
-  String getBorderTopColorCss() =>
-      _getCssValue(borderTopColor, _CssColorProperty.borderTopColor) ?? '';
-}
-
-mixin BorderRightColorMixin on BaseColorPropertyMixin {
-  Color? borderRightColor;
-
-  String getTailwindBorderRightColor() =>
-      _getTailwindClass(borderRightColor, _CssColorProperty.borderRightColor) ??
-      '';
-  String getBorderRightColorCss() =>
-      _getCssValue(borderRightColor, _CssColorProperty.borderRightColor) ?? '';
-}
-
-mixin BorderBottomColorMixin on BaseColorPropertyMixin {
-  Color? borderBottomColor;
-
-  String getTailwindBorderBottomColor() =>
-      _getTailwindClass(
-          borderBottomColor, _CssColorProperty.borderBottomColor) ??
-      '';
-  String getBorderBottomColorCss() =>
-      _getCssValue(borderBottomColor, _CssColorProperty.borderBottomColor) ??
-      '';
-}
-
-mixin BorderLeftColorMixin on BaseColorPropertyMixin {
-  Color? borderLeftColor;
-
-  String getTailwindBorderLeftColor() =>
-      _getTailwindClass(borderLeftColor, _CssColorProperty.borderLeftColor) ??
-      '';
-  String getBorderLeftColorCss() =>
-      _getCssValue(borderLeftColor, _CssColorProperty.borderLeftColor) ?? '';
-}
-
-mixin OutlineColorMixin on BaseColorPropertyMixin {
-  Color? outlineColor;
-
-  String getTailwindOutlineColor() =>
-      _getTailwindClass(outlineColor, _CssColorProperty.outlineColor) ?? '';
-  String getOutlineColorCss() =>
-      _getCssValue(outlineColor, _CssColorProperty.outlineColor) ?? '';
-}
-
-mixin CaretColorMixin on BaseColorPropertyMixin {
-  Color? caretColor;
-
-  String getTailwindCaretColor() =>
-      _getTailwindClass(caretColor, _CssColorProperty.caretColor) ?? '';
-  String getCaretColorCss() =>
-      _getCssValue(caretColor, _CssColorProperty.caretColor) ?? '';
-}
-
-mixin TextDecorationColorMixin on BaseColorPropertyMixin {
-  Color? textDecorationColor;
-
-  String getTailwindTextDecorationColor() =>
-      _getTailwindClass(
-          textDecorationColor, _CssColorProperty.textDecorationColor) ??
-      '';
-  String getTextDecorationColorCss() =>
-      _getCssValue(
-          textDecorationColor, _CssColorProperty.textDecorationColor) ??
-      '';
-}
-
-mixin TextEmphasisColorMixin on BaseColorPropertyMixin {
-  Color? textEmphasisColor;
-
-  String getTailwindTextEmphasisColor() =>
-      _getTailwindClass(
-          textEmphasisColor, _CssColorProperty.textEmphasisColor) ??
-      '';
-  String getTextEmphasisColorCss() =>
-      _getCssValue(textEmphasisColor, _CssColorProperty.textEmphasisColor) ??
-      '';
-}
-
-mixin ColumnRuleColorMixin on BaseColorPropertyMixin {
-  Color? columnRuleColor;
-
-  String getTailwindColumnRuleColor() =>
-      _getTailwindClass(columnRuleColor, _CssColorProperty.columnRuleColor) ??
-      '';
-  String getColumnRuleColorCss() =>
-      _getCssValue(columnRuleColor, _CssColorProperty.columnRuleColor) ?? '';
-}
-
-mixin AccentColorMixin on BaseColorPropertyMixin {
-  Color? accentColor;
-
-  String getTailwindAccentColor() =>
-      _getTailwindClass(accentColor, _CssColorProperty.accentColor) ?? '';
-  String getAccentColorCss() =>
-      _getCssValue(accentColor, _CssColorProperty.accentColor) ?? '';
-}
-
-// Non-standard scrollbar colors. Tailwind does not have direct classes for these.
-// The Tailwind class names here are illustrative and might not exist.
-// You'll likely need custom CSS or browser-specific styling for these.
-mixin ScrollbarColorMixin on BaseColorPropertyMixin {
-  Color? scrollbarColor;
-  Color? scrollbarTrackColor;
-
-  String getTailwindScrollbarColor() =>
-      _getTailwindClass(scrollbarColor, _CssColorProperty.scrollbarColor) ?? '';
-  String getScrollbarColorCss() =>
-      _getCssValue(scrollbarColor, _CssColorProperty.scrollbarColor) ?? '';
-
-  String getTailwindScrollbarTrackColor() =>
-      _getTailwindClass(
-          scrollbarTrackColor, _CssColorProperty.scrollbarTrackColor) ??
-      '';
-  String getScrollbarTrackColorCss() =>
-      _getCssValue(
-          scrollbarTrackColor, _CssColorProperty.scrollbarTrackColor) ??
-      '';
 }

@@ -30,9 +30,8 @@ class HomeState extends State<Home> {
   @override
   Iterable<Component> build(BuildContext context) sync* {
     yield section([
-      p([text('This is my site')]),
       const Counter(),
-      const SizedBox(height: 16),
+      SizedBox(height: 8),
       const Divider(
         color: Colors.gold,
       ),
