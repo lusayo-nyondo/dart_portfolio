@@ -28,24 +28,22 @@ class HomeState extends State<Home> {
   @override
   build(BuildContext context) sync* {
     yield Container(
+      color: Colors.white,
       margin: Spacing.all(8.px),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.px),
-        color: Colors.aqua,
       ),
       padding: Spacing.all(20.px),
       child: Column.separated(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            h1([text('This is my app!')]),
+            h1([text('Welcome')]),
             Expanded(
-              child: MarginComponent(
-                margin: Spacing.all(8.px),
-                child: Container(
-                    color: Colors.aliceBlue,
-                    child: TextComponent("Hey there.")),
-              ),
-            )
+              child: Column(spacing: 20, children: [
+                TextField(labelText: 'username', placeholder: 'johndoe'),
+                TextField(labelText: 'password', obscureText: true),
+              ]),
+            ),
           ],
           separatorBuilder: Divider()),
     );

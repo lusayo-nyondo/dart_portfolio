@@ -121,8 +121,16 @@ abstract class Flexbox extends StatelessComponent {
 
     yield div(
       classes: tailwindClasses.join(' '),
-      styles:
-          Styles(gap: spacing != null ? Gap(column: Unit.em(spacing!)) : null),
+      styles: Styles(
+          gap: spacing != null
+              ? Gap(
+                  row: directionClass == 'flex-col'
+                      ? Unit.pixels(spacing!)
+                      : null,
+                  column: directionClass == 'flex-row'
+                      ? Unit.pixels(spacing!)
+                      : null)
+              : null),
       List.from(children),
     );
   }

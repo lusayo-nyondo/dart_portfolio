@@ -30,7 +30,7 @@ const Duration _kLongPressTimeout = Duration(milliseconds: 500);
 
 // Abstract base class for all button types
 abstract class BaseButton extends StatefulComponent {
-  final Component? child;
+  final Component child;
   final VoidCallback? onPressed;
   final VoidCallback? onLongPress;
   final ButtonStyle? style;
@@ -38,8 +38,8 @@ abstract class BaseButton extends StatefulComponent {
 
   const BaseButton._({
     super.key,
-    this.child,
-    this.onPressed,
+    required this.child,
+    required this.onPressed,
     this.onLongPress,
     this.style,
     this.enabled = true,
@@ -182,7 +182,7 @@ class _BaseButtonState extends State<BaseButton> {
         'touchend': _handleMouseUp,
         'touchcancel': _handleMouseUp, // Treat touchcancel like mouse up
       },
-      [component.child ?? text('')], // Ensure there's always a child
+      [component.child], // Ensure there's always a child
     );
   }
 }
@@ -191,7 +191,7 @@ class Button extends BaseButton {
   const Button({
     super.key,
     required super.child,
-    super.onPressed,
+    required super.onPressed,
     super.onLongPress,
     super.enabled,
     super.style, // Allows complete custom styling
@@ -217,7 +217,7 @@ class FilledButton extends BaseButton {
   const FilledButton({
     super.key,
     required super.child,
-    super.onPressed,
+    required super.onPressed,
     super.onLongPress,
     super.enabled,
     super.style,
@@ -244,7 +244,7 @@ class ElevatedButton extends BaseButton {
   const ElevatedButton({
     super.key,
     required super.child,
-    super.onPressed,
+    required super.onPressed,
     super.onLongPress,
     super.enabled,
     super.style,
@@ -274,7 +274,7 @@ class TextButton extends BaseButton {
   const TextButton({
     super.key,
     required super.child,
-    super.onPressed,
+    required super.onPressed,
     super.onLongPress,
     super.enabled,
     super.style,
@@ -299,7 +299,7 @@ class OutlinedButton extends BaseButton {
   const OutlinedButton({
     super.key,
     required super.child,
-    super.onPressed,
+    required super.onPressed,
     super.onLongPress,
     super.enabled,
     super.style,

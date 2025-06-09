@@ -1,7 +1,8 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
-import 'components/header.dart';
+import 'components/components.dart';
+
 import 'pages/about.dart';
 import 'pages/home.dart';
 
@@ -14,9 +15,15 @@ class App extends StatelessComponent {
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    yield div(classes: 'main', [
-      const Header(),
-      Router(routes: [
+    yield Scaffold(
+      appBar: AppBar(
+          title: Row(spacing: 12, children: [
+        Button(child: Link(to: '/', child: text('Home')), onPressed: () => {}),
+        Button(
+            child: Link(to: '/about', child: text('About')),
+            onPressed: () => {}),
+      ])),
+      body: Router(routes: [
         Route(
             path: '/',
             title: 'Home',
@@ -26,6 +33,6 @@ class App extends StatelessComponent {
             title: 'About',
             builder: (context, state) => const About()),
       ]),
-    ]);
+    );
   }
 }

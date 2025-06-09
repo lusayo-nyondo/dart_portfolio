@@ -14,6 +14,8 @@
 include: package:lints/recommended.yaml
 
 analyzer:
+  errors:
+    no_leading_underscores_for_local_identifiers: ignore
   # Jaspr has a custom lint package 'jaspr_lints', which needs the 'custom_lint' analyzer plugin.
   #
   # Unfortunately, running 'dart analyze' does not pick up the custom lints. Instead, you need to

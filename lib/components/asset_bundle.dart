@@ -1,5 +1,7 @@
-import 'dart:html' show window;
 import 'dart:async'; // For Future
+
+import 'package:universal_web/js_interop.dart';
+import 'package:universal_web/web.dart';
 
 /// A simple asset bundle for Jaspr web applications.
 ///
@@ -31,12 +33,12 @@ class RootAssetBundle {
   Future<String> loadString(String key) async {
     final String url = getAssetUrl(key);
     try {
-      final response = await window.fetch(url);
+      final response = await window.fetch(url.toJS).toDart;
       if (!response.ok) {
         throw Exception(
             'Failed to load asset: $url (Status: ${response.status})');
       }
-      return await response.text();
+      return (await response.text().toDart).toDart;
     } catch (e) {
       print('Error loading string asset "$url": $e');
       rethrow;

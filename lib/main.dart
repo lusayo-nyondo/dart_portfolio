@@ -25,20 +25,13 @@ void main() {
     options: defaultJasprOptions,
   );
 
-  runApp(Document(
-    title: 'dart_portfolio',
-    head: [
-      link(href: 'styles.css', rel: 'stylesheet'),
-    ],
-    body: div(
-      [
-        App(),
-        script(
-          [],
-          defer: true,
-          src: '//unpkg.com/alpinejs',
-        ),
+  runApp(
+    Document(
+      title: 'dart_portfolio',
+      head: [
+        link(href: 'styles.css', rel: 'stylesheet'),
       ],
+      body: App(),
     ),
-  ));
+  );
 }

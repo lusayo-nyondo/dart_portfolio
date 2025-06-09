@@ -21,12 +21,6 @@ int? _parseIntGroup(Match match, int group) {
   return s != null ? int.tryParse(s) : null;
 }
 
-// Helper function to parse a double from a regex match group
-double? _parseDoubleGroup(Match match, int group) {
-  final String? s = match.group(group);
-  return s != null ? double.tryParse(s) : null;
-}
-
 // Minimal mapping for common named colors to their RGB values.
 // A comprehensive solution would require mapping all CSS named colors.
 // Note: This is an incomplete list and only for demonstration.

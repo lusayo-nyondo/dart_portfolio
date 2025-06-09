@@ -13,6 +13,7 @@ dependencies:
   jaspr_tailwind:
     git:
       url: git@github.com:denniskaselow/jaspr_tailwind.git
+  universal_web: ^1.1.0+2
 
 dev_dependencies:
   build_runner: ^2.4.0

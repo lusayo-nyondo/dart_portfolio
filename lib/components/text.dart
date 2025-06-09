@@ -74,6 +74,34 @@ class TextStyle {
 
     return map;
   }
+
+  TextStyle copyWith({
+    Unit? fontSize,
+    FontWeight? fontWeight,
+    Color? color,
+    String? fontFamily,
+    TextDecoration? decoration,
+    Color? decorationColor,
+    TextDecorationStyle? decorationStyle,
+    Unit? letterSpacing,
+    Unit? wordSpacing,
+    Unit? lineHeight,
+    FontStyle? fontStyle,
+  }) {
+    return TextStyle(
+      fontSize: fontSize ?? this.fontSize,
+      fontWeight: fontWeight ?? this.fontWeight,
+      color: color ?? this.color,
+      fontFamily: fontFamily ?? this.fontFamily,
+      decoration: decoration ?? this.decoration,
+      decorationColor: decorationColor ?? this.decorationColor,
+      decorationStyle: decorationStyle ?? this.decorationStyle,
+      letterSpacing: letterSpacing ?? this.letterSpacing,
+      wordSpacing: wordSpacing ?? this.wordSpacing,
+      lineHeight: lineHeight ?? this.lineHeight,
+      fontStyle: fontStyle ?? this.fontStyle,
+    );
+  }
 }
 
 /// A Jaspr component that displays a string of text.

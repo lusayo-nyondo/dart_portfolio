@@ -1,2 +1,2 @@
-export 'unit_arithmetic.dart';
-export 'color.dart';
+export 'extensions/unit_arithmetic.dart';
+export 'extensions/color.dart';
