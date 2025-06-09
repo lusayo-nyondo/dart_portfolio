@@ -1,8 +1,8 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:jaspr/jaspr.dart';
-import 'box_constraints.dart'; // Import BoxConstraints
-import 'box_decoration.dart'; // Import BoxDecoration and its helpers
+import '../box_model/box_constraints.dart'; // Import BoxConstraints
+import '../box_model/box_decoration.dart'; // Import BoxDecoration and its helpers
 import 'align.dart'; // Import Alignment for alignment property
 
 /// A convenience widget that combines common painting, positioning, and sizing widgets.

@@ -2,8 +2,8 @@
 
 import 'package:jaspr/jaspr.dart';
 
-import 'align.dart';
-import 'clip.dart';
+import '../align.dart';
+import '../../effects/clips/clip.dart';
 import 'positioned.dart';
 
 /// How a non-positioned child of a [Stack] will be sized.
@@ -73,37 +73,6 @@ class Stack extends StatelessComponent {
         // These Flutter clips generally correspond to CSS 'hidden' for basic clipping
         return 'hidden';
     }
-  }
-
-  // Helper to get CSS transform origin based on Alignment
-  String _getTransformOrigin(Alignment alignment) {
-    String x = ((alignment.x + 1) / 2 * 100).toStringAsFixed(0);
-    String y = ((alignment.y + 1) / 2 * 100).toStringAsFixed(0);
-    return '$x% $y%';
-  }
-
-  // Helper to get CSS translation for centering based on Alignment
-  // This is a simplification; true Flutter alignment is more complex.
-  // For non-positioned children, we'll try to apply layout.
-  Map<String, String> _getAlignmentTransform(Alignment alignment) {
-    final Map<String, String> styles = {};
-    if (alignment == Alignment.center) {
-      // For center, we can use flexbox centering or absolute + transform
-      // Since children are absolute, we'll aim for individual child alignment if not positioned.
-      // For the unpositioned children inside a stack, CSS alignment is tricky without flex.
-      // A common pattern is to make unpositioned children effectively `position: absolute`
-      // and then apply alignment via `left/top/right/bottom` and `margin: auto` or `transform`.
-      // We will create a wrapper div for each unpositioned child.
-      return {
-        'display': 'flex',
-        'justify-content': 'center',
-        'align-items': 'center',
-      };
-    }
-    // For other alignments, it's more complex without knowing child size.
-    // We'll rely on the default top-left for unpositioned children,
-    // or wrap them in an internal positioned div if fit is expand and alignment is used.
-    return {};
   }
 
   @override

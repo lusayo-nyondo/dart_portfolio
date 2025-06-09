@@ -2,6 +2,9 @@
 
 import 'package:jaspr/jaspr.dart';
 
+export 'stack.dart';
+export 'offstage.dart';
+
 /// A widget that controls the position of its child within a [Stack].
 ///
 /// [Positioned] widgets are typically used as children of a [Stack] widget.

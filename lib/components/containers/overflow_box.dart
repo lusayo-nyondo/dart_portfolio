@@ -1,28 +1,40 @@
+// ignore_for_file: no_leading_underscores_for_local_identifiers
+
 import 'package:jaspr/jaspr.dart';
 
-import 'box_constraints.dart'; // Import BoxConstraints
-
+import '../box_model/box_constraints.dart'; // Import BoxConstraints
 import 'align.dart';
-import 'size.dart';
 
-/// A widget that is a specific size itself, but passes its original constraints
-/// through to its child, which may overflow.
+/// A widget that imposes different constraints on its child than it itself is constrained to.
 ///
-/// Mimics Flutter's [SizedOverflowBox] widget.
+/// Mimics Flutter's [OverflowBox] widget.
 ///
-/// This is a combination of [SizedBox] (for its own size) and [OverflowBox]
-/// (for passing through constraints).
-class SizedOverflowBox extends StatelessComponent {
-  final Size? size;
+/// This is similar to [ConstrainedBox] but the constraints applied to the child
+/// do not affect the [OverflowBox]'s own size.
+///
+/// In CSS, this can be achieved using a combination of `width`, `height`,
+/// `min-width`, `max-width`, `min-height`, `max-height`, and `overflow`.
+class OverflowBox extends StatelessComponent {
   final BoxConstraints? constraints;
   final Component child;
+  final double? maxWidth;
+  final double? maxHeight;
+  final double? minWidth;
+  final double? minHeight;
+  final double? width;
+  final double? height;
   final Alignment alignment;
 
-  const SizedOverflowBox({
+  const OverflowBox({
     super.key,
-    this.size,
     this.constraints,
     required this.child,
+    this.maxWidth,
+    this.maxHeight,
+    this.minWidth,
+    this.minHeight,
+    this.width,
+    this.height,
     this.alignment = Alignment.topLeft, // Default to top-left (like Flutter)
   });
 
@@ -42,12 +54,12 @@ class SizedOverflowBox extends StatelessComponent {
   @override
   build(BuildContext context) sync* {
     // Collect all style properties
-    Unit? _width = size?.width.px;
-    Unit? _height = size?.height.px;
-    Unit? _minWidth;
-    Unit? _maxWidth;
-    Unit? _minHeight;
-    Unit? _maxHeight;
+    Unit? _width = width?.px;
+    Unit? _height = height?.px;
+    Unit? _minWidth = minWidth?.px;
+    Unit? _maxWidth = maxWidth?.px;
+    Unit? _minHeight = minHeight?.px;
+    Unit? _maxHeight = maxHeight?.px;
 
     if (constraints != null) {
       _minWidth ??=
@@ -75,13 +87,13 @@ class SizedOverflowBox extends StatelessComponent {
       [
         div(
           classes:
-              'absolute', // Position the child absolutely within the SizedOverflowBox
+              'absolute', // Position the child absolutely within the OverflowBox
           styles: Styles(
             position: Position.absolute(
               top: 0.px,
               left: 0.px,
             ),
-            // Align the child within the SizedOverflowBox
+            // Align the child within the OverflowBox
             justifyContent: _getJustifyContent(alignment),
             alignItems: _getAlignItems(alignment),
           ),

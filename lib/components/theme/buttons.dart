@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import 'package:dart_portfolio/components/text.dart';
+import 'package:dart_portfolio/components/themed/text/text.dart';
 
 /// Defines the visual properties for standard buttons within the theme.
 class ButtonThemeData {

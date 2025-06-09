@@ -1,5 +1,10 @@
 import 'package:jaspr/jaspr.dart';
 
+export 'expanded.dart';
+export 'flexible.dart';
+export 'row.dart';
+export 'column.dart';
+
 enum MainAxisAlignment {
   start,
   end,

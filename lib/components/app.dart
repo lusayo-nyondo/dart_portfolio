@@ -4,9 +4,9 @@ import 'package:jaspr_router/jaspr_router.dart';
 import 'package:universal_web/web.dart';
 import 'package:universal_web/js_interop.dart';
 
-import 'stack.dart';
+import 'containers/positioned/stack.dart';
 import 'theme/theme.dart'; // Import the new ThemeData
-import 'text.dart';
+import 'themed/text/text.dart';
 
 // An InheritedComponent to efficiently pass ThemeData down the component tree.
 /// This is an internal component used by `JasprApp`.

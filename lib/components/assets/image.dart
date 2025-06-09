@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import 'box_fit.dart';
+import '../box_model/box_fit.dart';
 import 'asset_bundle.dart';
 
 /// How a child is aligned within its parent.

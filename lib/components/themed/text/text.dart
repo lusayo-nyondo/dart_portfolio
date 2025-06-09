@@ -1,5 +1,8 @@
 import 'package:jaspr/jaspr.dart';
 
+export 'text_span.dart';
+export 'rich_text.dart';
+
 /// An enum for specifying text direction.
 enum TextDirection {
   ltr,

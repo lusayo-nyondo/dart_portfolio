@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import 'package:dart_portfolio/components/text.dart';
+import 'package:dart_portfolio/components/themed/text/text.dart';
 
 /// Defines a set of standard text styles for various typography scales.
 /// Mimics Flutter's TextTheme for consistent text styling.
