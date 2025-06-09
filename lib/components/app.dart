@@ -6,24 +6,6 @@ import 'package:universal_web/js_interop.dart';
 
 import 'containers/positioned/stack.dart';
 import 'theme/theme.dart'; // Import the new ThemeData
-import 'themed/text/text.dart';
-
-// An InheritedComponent to efficiently pass ThemeData down the component tree.
-/// This is an internal component used by `JasprApp`.
-class _ThemeInheritedComponent extends InheritedComponent {
-  const _ThemeInheritedComponent({
-    required this.themeData,
-    required super.child,
-  });
-
-  final ThemeData themeData;
-
-  @override
-  bool updateShouldNotify(_ThemeInheritedComponent oldComponent) {
-    // Only notify dependents if the ThemeData instance itself changes.
-    return themeData != oldComponent.themeData;
-  }
-}
 
 /// The root component for a Jaspr application that provides theming and routing capabilities.
 ///
@@ -85,8 +67,8 @@ class JasprApp extends StatefulComponent {
 
   /// Helper to get the theme data from context.
   static ThemeData of(BuildContext context) {
-    final _ThemeInheritedComponent? inheritedTheme = context
-        .dependOnInheritedComponentOfExactType<_ThemeInheritedComponent>();
+    final Theme? inheritedTheme =
+        context.dependOnInheritedComponentOfExactType<Theme>();
     assert(inheritedTheme != null,
         'No ThemeData found in context. Wrap your app in a JasprApp.');
     return inheritedTheme!.themeData;
@@ -94,7 +76,7 @@ class JasprApp extends StatefulComponent {
 }
 
 class _JasprAppState extends State<JasprApp> {
-  ThemeData? _activeTheme;
+  ThemeData _activeTheme = ThemeData.light();
 
   late MediaQueryList _mediaQueryList;
   late JSFunction _jsListenerFunction;
@@ -102,10 +84,9 @@ class _JasprAppState extends State<JasprApp> {
   @override
   void initState() {
     super.initState();
-    _updateActiveTheme();
-
     // Set initial browser tab title
     if (kIsWeb) {
+      _updateActiveTheme();
       document.title = component.title;
       // Listen for system theme changes if themeMode is system
       _mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
@@ -198,12 +179,6 @@ class _JasprAppState extends State<JasprApp> {
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    if (_activeTheme == null) {
-      // Show a loading indicator until the theme is determined
-      yield const TextComponent('Loading application...');
-      return;
-    }
-
     // Inject global CSS variables into the `:root` element.
     // We define two sets of variables: one for light mode (default) and one for dark mode (within `.dark` scope).
     yield DomComponent(
@@ -212,27 +187,27 @@ class _JasprAppState extends State<JasprApp> {
         text('''
           /* Base Light Theme Variables (default) */
           :root {
-            --primary-color: ${_activeTheme!.colorScheme.primary.value};
-            --primary-variant-color: ${_activeTheme!.colorScheme.primaryVariant.value};
-            --secondary-color: ${_activeTheme!.colorScheme.secondary.value};
-            --secondary-variant-color: ${_activeTheme!.colorScheme.secondaryVariant.value};
-            --surface-color: ${_activeTheme!.colorScheme.surface.value};
-            --background-color: ${_activeTheme!.colorScheme.background.value};
-            --error-color: ${_activeTheme!.colorScheme.error.value};
+            --primary-color: ${_activeTheme.colorScheme.primary.value};
+            --primary-variant-color: ${_activeTheme.colorScheme.primaryVariant.value};
+            --secondary-color: ${_activeTheme.colorScheme.secondary.value};
+            --secondary-variant-color: ${_activeTheme.colorScheme.secondaryVariant.value};
+            --surface-color: ${_activeTheme.colorScheme.surface.value};
+            --background-color: ${_activeTheme.colorScheme.background.value};
+            --error-color: ${_activeTheme.colorScheme.error.value};
 
-            --on-primary-color: ${_activeTheme!.colorScheme.onPrimary.value};
-            --on-secondary-color: ${_activeTheme!.colorScheme.onSecondary.value};
-            --on-surface-color: ${_activeTheme!.colorScheme.onSurface.value};
-            --on-background-color: ${_activeTheme!.colorScheme.onBackground.value};
-            --on-error-color: ${_activeTheme!.colorScheme.onError.value};
+            --on-primary-color: ${_activeTheme.colorScheme.onPrimary.value};
+            --on-secondary-color: ${_activeTheme.colorScheme.onSecondary.value};
+            --on-surface-color: ${_activeTheme.colorScheme.onSurface.value};
+            --on-background-color: ${_activeTheme.colorScheme.onBackground.value};
+            --on-error-color: ${_activeTheme.colorScheme.onError.value};
 
-            --text-display-large-size: ${_activeTheme!.textTheme.displayLarge.fontSize}px;
-            --text-display-large-weight: ${_activeTheme!.textTheme.displayLarge.fontWeight?.value};
-            --text-display-large-color: ${_activeTheme!.textTheme.displayLarge.color?.value};
+            --text-display-large-size: ${_activeTheme.textTheme.displayLarge.fontSize}px;
+            --text-display-large-weight: ${_activeTheme.textTheme.displayLarge.fontWeight?.value};
+            --text-display-large-color: ${_activeTheme.textTheme.displayLarge.color?.value};
 
             /* Add more text theme variables here as needed */
-            --font-family: ${_activeTheme!.fontFamily};
-            --default-border-radius: ${_activeTheme!.defaultBorderRadius}px;
+            --font-family: ${_activeTheme.fontFamily};
+            --default-border-radius: ${_activeTheme.defaultBorderRadius}px;
           }
 
           /* Dark Theme Overrides (applied when html.dark class is present) */
@@ -335,8 +310,8 @@ class _JasprAppState extends State<JasprApp> {
     }
 
     // Provide the theme data to the rest of the component tree via InheritedComponent
-    yield _ThemeInheritedComponent(
-      themeData: _activeTheme!,
+    yield Theme(
+      themeData: _activeTheme,
       child: appContent,
     );
   }

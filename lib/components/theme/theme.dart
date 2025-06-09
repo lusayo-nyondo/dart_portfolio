@@ -123,16 +123,6 @@ class ThemeData {
       defaultBorderRadius: defaultBorderRadius ?? 4.0,
     );
   }
-
-  // Static method to retrieve the current ThemeData from the BuildContext.
-  // This is how child widgets access the theme.
-  static ThemeData of(BuildContext context) {
-    final Theme? inheritedTheme =
-        context.dependOnInheritedComponentOfExactType<Theme>();
-    assert(inheritedTheme != null,
-        'No ThemeData found in context. Wrap your app in a JasprApp to provide a theme.');
-    return inheritedTheme!.themeData;
-  }
 }
 
 class Theme extends InheritedComponent {
