@@ -4,12 +4,13 @@ import 'package:jaspr_router/jaspr_router.dart';
 import 'package:universal_web/web.dart';
 import 'package:universal_web/js_interop.dart';
 
-import 'containers/positioned/stack.dart';
-import 'theme/theme.dart'; // Import the new ThemeData
+import 'components.dart';
 
 /// The root component for a Jaspr application that provides theming and routing capabilities.
 ///
 /// This component aims to mimic the core functionalities of Flutter's `MaterialApp`.
+
+@client
 class JasprApp extends StatefulComponent {
   /// The title of the application, displayed in the browser tab.
   final String title;
@@ -297,16 +298,6 @@ class _JasprAppState extends State<JasprApp> {
     // Apply the custom builder if provided
     if (component.builder != null) {
       appContent = component.builder!(context, appContent);
-    }
-
-    // Wrap with the debug banner if enabled
-    if (component.debugShowCheckedModeBanner) {
-      appContent = Stack(
-        children: [
-          appContent,
-          div(classes: 'debug-banner', [text('DEBUG')]),
-        ],
-      );
     }
 
     // Provide the theme data to the rest of the component tree via InheritedComponent
