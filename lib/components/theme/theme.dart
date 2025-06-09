@@ -5,9 +5,12 @@ import 'buttons.dart';
 import 'colors.dart';
 import 'text.dart';
 
+enum Brightness { light, dark }
+
 /// The core class that defines the visual theme for a Jaspr application.
 /// Mimics Flutter's ThemeData, combining colors, typography, and component themes.
 class ThemeData {
+  final Brightness brightness;
   final ColorTheme colorScheme;
   final TextTheme textTheme;
   final AppBarTheme appBarTheme;
@@ -21,6 +24,7 @@ class ThemeData {
   const ThemeData({
     required this.colorScheme,
     required this.textTheme,
+    this.brightness = Brightness.dark,
     this.appBarTheme = const AppBarTheme(),
     this.buttonTheme = const ButtonThemeData(),
     this.fontFamily,
@@ -45,6 +49,7 @@ class ThemeData {
     );
 
     return ThemeData(
+      brightness: Brightness.light,
       colorScheme: colorScheme ?? defaultColorTheme,
       textTheme: textTheme ?? defaultTextTheme,
       appBarTheme: appBarTheme ??
@@ -90,6 +95,7 @@ class ThemeData {
     );
 
     return ThemeData(
+      brightness: Brightness.dark,
       colorScheme: colorScheme ?? defaultColorTheme,
       textTheme: textTheme ?? defaultTextTheme,
       appBarTheme: appBarTheme ??
@@ -142,4 +148,11 @@ class ThemeProvider extends InheritedComponent {
   bool updateShouldNotify(covariant ThemeProvider oldComponent) {
     return themeData != oldComponent.themeData;
   }
+}
+
+// lib/theme/theme_mode.dart
+enum ThemeMode {
+  system, // Respects user's system preferences (prefers-color-scheme)
+  light, // Always light mode
+  dark, // Always dark mode
 }

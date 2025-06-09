@@ -1,5 +1,6 @@
 export 'extensions.dart';
 
+export 'app.dart';
 export 'align.dart';
 export 'aspect_ratio.dart';
 export 'baseline.dart';
@@ -31,13 +32,16 @@ export 'material_icons.dart';
 export 'offstage.dart';
 export 'overflow_box.dart';
 export 'padding.dart';
+export 'positioned.dart';
 export 'rich_text.dart';
 export 'row.dart';
 export 'scaffold/scaffold.dart';
 export 'size.dart';
 export 'sized_box.dart';
 export 'sized_overflow_box.dart';
+export 'stack.dart';
 export 'text.dart';
 export 'text_field/text_field.dart';
 export 'text_span.dart';
+export 'theme/theme.dart';
 export 'transform.dart';
