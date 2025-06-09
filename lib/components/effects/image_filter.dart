@@ -1,32 +1,3 @@
-import 'package:universal_web/js_interop.dart';
-
-// --- JS Interop Definitions ---
-// @staticInterop classes are implicitly JSObjects
-@JS()
-@staticInterop
-class HTMLElement {}
-
-@JS()
-@staticInterop
-class SVGElement {}
-
-@JS()
-@staticInterop
-class SVGFESpecularLightingElement {} // Example for more complex filters
-
-@JS()
-@staticInterop
-class Document {
-  external HTMLElement createElement(String tagName);
-  external SVGElement createElementNS(
-      String namespaceURI, String qualifiedName);
-  external HTMLElement getElementById(String elementId);
-}
-
-@JS('document')
-external Document get document;
-// --- ImageFilter Implementation ---
-
 /// An abstract base class for image filters.
 abstract class ImageFilter {
   const ImageFilter._();
