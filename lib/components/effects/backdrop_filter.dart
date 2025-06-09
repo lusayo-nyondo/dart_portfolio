@@ -83,20 +83,6 @@ class BackdropFilter extends StatelessComponent {
   }
 }
 
-// Dummy Color class (if not already defined)
-class Color {
-  final String value;
-  const Color(this.value);
-  static const black = Color('black');
-  static const white = Color('white');
-  static const blue = Color('blue');
-
-  @override
-  bool operator ==(Object other) => other is Color && value == other.value;
-  @override
-  int get hashCode => value.hashCode;
-}
-
 // Example Usage (imagine a background element is present):
 //
 // RootComponent(

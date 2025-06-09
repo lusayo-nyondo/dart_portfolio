@@ -1,9 +1,9 @@
 import 'package:jaspr/jaspr.dart';
 
-import '../../box_model/size.dart';
+import '../../containers/box_model/size.dart';
 import 'clip.dart';
 import 'custom_clipper.dart';
-import '../../box_model/path.dart';
+import '../../containers/box_model/path.dart';
 
 /// A component that clips its child using an arbitrary path.
 class ClipPath extends StatelessComponent {

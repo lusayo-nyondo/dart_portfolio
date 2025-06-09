@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import '../box_model/offset.dart';
+import '../containers/box_model/offset.dart';
 
 /// A component that translates its child by a given offset,
 /// where the offset is expressed as a fraction of the child's size.

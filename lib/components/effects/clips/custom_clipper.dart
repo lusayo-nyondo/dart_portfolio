@@ -1,4 +1,4 @@
-import '../../box_model/size.dart';
+import '../../containers/box_model/size.dart';
 
 /// Abstract class for defining custom clip regions.
 abstract class CustomClipper<T> {

@@ -2,7 +2,7 @@
 
 import 'package:jaspr/jaspr.dart';
 
-import '../box_model/box_constraints.dart'; // Import BoxConstraints
+import 'box_model/box_constraints.dart'; // Import BoxConstraints
 import 'align.dart';
 
 /// A widget that imposes different constraints on its child than it itself is constrained to.

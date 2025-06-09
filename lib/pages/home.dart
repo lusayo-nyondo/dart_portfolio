@@ -37,7 +37,7 @@ class HomeState extends State<Home> {
       child: Column.separated(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            h1([text('Welcome')]),
+            Navbar(),
             Expanded(
               child: Column(spacing: 20, children: [
                 TextField(labelText: 'username', placeholder: 'johndoe'),

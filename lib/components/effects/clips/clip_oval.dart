@@ -1,8 +1,8 @@
 import 'package:jaspr/jaspr.dart';
 
 import 'clip.dart';
-import '../../box_model/size.dart';
-import '../../box_model/rect.dart';
+import '../../containers/box_model/size.dart';
+import '../../containers/box_model/rect.dart';
 import 'custom_clipper.dart';
 
 /// A component that clips its child using an oval.

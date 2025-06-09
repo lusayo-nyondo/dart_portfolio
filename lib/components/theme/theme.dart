@@ -127,16 +127,16 @@ class ThemeData {
   // Static method to retrieve the current ThemeData from the BuildContext.
   // This is how child widgets access the theme.
   static ThemeData of(BuildContext context) {
-    final ThemeProvider? inheritedTheme =
-        context.dependOnInheritedComponentOfExactType<ThemeProvider>();
+    final Theme? inheritedTheme =
+        context.dependOnInheritedComponentOfExactType<Theme>();
     assert(inheritedTheme != null,
         'No ThemeData found in context. Wrap your app in a JasprApp to provide a theme.');
     return inheritedTheme!.themeData;
   }
 }
 
-class ThemeProvider extends InheritedComponent {
-  const ThemeProvider({
+class Theme extends InheritedComponent {
+  const Theme({
     required this.themeData,
     required super.child,
     super.key,
@@ -145,8 +145,16 @@ class ThemeProvider extends InheritedComponent {
   final ThemeData themeData;
 
   @override
-  bool updateShouldNotify(covariant ThemeProvider oldComponent) {
+  bool updateShouldNotify(covariant Theme oldComponent) {
     return themeData != oldComponent.themeData;
+  }
+
+  static ThemeData of(BuildContext context) {
+    final Theme? inheritedTheme =
+        context.dependOnInheritedComponentOfExactType<Theme>();
+    assert(inheritedTheme != null,
+        'No ThemeData found in context. Wrap your app in a JasprApp to provide a theme.');
+    return inheritedTheme!.themeData;
   }
 }
 

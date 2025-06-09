@@ -1,7 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
 import 'package:jaspr/jaspr.dart';
-import '../box_model/box_fit.dart'; // Import BoxFit
+import 'box_model/box_fit.dart'; // Import BoxFit
 import 'align.dart'; // Import Alignment (for child positioning)
 
 /// A widget that scales and positions its child within itself according to a [BoxFit].

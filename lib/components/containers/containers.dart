@@ -1,8 +1,8 @@
 export 'align.dart';
 export 'aspect_ratio.dart';
 export 'baseline.dart';
+export 'box_model/box_model.dart';
 export 'center.dart';
-export '../effects/clips/clips.dart';
 export 'constrained_box.dart';
 export 'container.dart';
 export 'flexbox/flexbox.dart';
@@ -12,5 +12,6 @@ export 'intrinsic_width.dart';
 export 'limited_box.dart';
 export 'overflow_box.dart';
 export 'positioned/positioned.dart';
+export 'scrollables/scrollables.dart';
 export 'sized_box.dart';
 export 'sized_overflow_box.dart';

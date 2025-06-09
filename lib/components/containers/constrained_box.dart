@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import '../box_model/box_constraints.dart'; // Import the BoxConstraints class
+import 'box_model/box_constraints.dart'; // Import the BoxConstraints class
 
 /// A widget that imposes additional constraints on its child.
 ///

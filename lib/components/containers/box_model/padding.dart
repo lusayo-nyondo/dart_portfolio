@@ -2,23 +2,23 @@ import 'package:jaspr/jaspr.dart';
 
 /// A widget that adds empty space around another widget.
 ///
-/// Mimics Flutter's [Padding] widget.
+/// Mimics Flutter's [PaddingComponent] widget.
 ///
 /// This component directly uses Jaspr's `Spacing` object for padding.
-class Padding extends StatelessComponent {
+class PaddingComponent extends StatelessComponent {
   final Component child;
   final Spacing padding;
 
-  const Padding({
+  const PaddingComponent({
     super.key,
     required this.child,
     required this.padding,
   });
 
-  const Padding.all(Spacing padding)
+  const PaddingComponent.all(Spacing padding)
       : this(child: const Text(''), padding: padding);
 
-  Padding.only({
+  PaddingComponent.only({
     double? left,
     double? top,
     double? right,
@@ -31,7 +31,7 @@ class Padding extends StatelessComponent {
                 right: right?.px,
                 bottom: bottom?.px));
 
-  Padding.symmetric({double horizontal = 0.0, double vertical = 0.0})
+  PaddingComponent.symmetric({double horizontal = 0.0, double vertical = 0.0})
       : this(
             child: const Text(''),
             padding: Spacing.symmetric(

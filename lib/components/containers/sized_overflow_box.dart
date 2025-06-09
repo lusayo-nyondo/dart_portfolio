@@ -1,9 +1,9 @@
 import 'package:jaspr/jaspr.dart';
 
-import '../box_model/box_constraints.dart'; // Import BoxConstraints
+import 'box_model/box_constraints.dart'; // Import BoxConstraints
 
 import 'align.dart';
-import '../box_model/size.dart';
+import 'box_model/size.dart';
 
 /// A widget that is a specific size itself, but passes its original constraints
 /// through to its child, which may overflow.
