@@ -1,4 +1,4 @@
-import 'text.dart';
+import '../../theme/text.dart';
 
 /// A run of text with a single style.
 ///

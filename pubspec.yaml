@@ -13,6 +13,8 @@ dependencies:
   jaspr_tailwind:
     git:
       url: git@github.com:denniskaselow/jaspr_tailwind.git
+  json_annotation: ^4.9.0
+  json_serializable: ^6.9.5
   universal_web: ^1.1.0+2
 
 dev_dependencies:

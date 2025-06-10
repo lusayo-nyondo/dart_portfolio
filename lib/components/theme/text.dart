@@ -1,13 +1,119 @@
 import 'package:jaspr/jaspr.dart';
 
-import 'package:dart_portfolio/components/themed/text/text.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+/// An enum for specifying text direction.
+enum TextDirection {
+  ltr,
+  rtl,
+}
+
+/// An immutable style describing how to format text.
+///
+/// Mimics Flutter's [TextStyle] class.
+class TextStyle {
+  final Unit? fontSize;
+  final FontWeight? fontWeight; // Jaspr's FontWeight enum
+  final Color? color;
+  final String? fontFamily;
+  final TextDecoration? decoration; // Jaspr's TextDecoration enum
+  final Color? decorationColor;
+  final TextDecorationStyle?
+      decorationStyle; // Jaspr's TextDecorationStyle enum
+  final Unit? letterSpacing; // Jaspr's Unit for letter spacing
+  final Unit? wordSpacing; // Jaspr's Unit for word spacing
+  final Unit? lineHeight; // Jaspr's Unit for line-height (e.g., 1.2.em, 24.px)
+  final FontStyle? fontStyle; // Jaspr's FontStyle enum
+
+  const TextStyle({
+    this.fontSize,
+    this.fontWeight,
+    this.color,
+    this.fontFamily,
+    this.decoration,
+    this.decorationColor,
+    this.decorationStyle,
+    this.letterSpacing,
+    this.wordSpacing,
+    this.lineHeight,
+    this.fontStyle,
+  });
+
+  // Updated: Method to convert TextStyle properties into a raw Map for Styles(raw: ...)
+  Map<String, String> toCssMap() {
+    final Map<String, String> map = {};
+
+    if (fontSize != null) {
+      map['font-size'] =
+          fontSize!.value; // Convert Unit to CSS string (e.g., "16px")
+    }
+    if (fontWeight != null) {
+      map['font-weight'] = fontWeight!
+          .value; // Convert enum to CSS string (e.g., "bold" or "700")
+    }
+    if (color != null) {
+      map['color'] =
+          color!.value; // Convert Color to CSS string (e.g., "#RRGGBB")
+    }
+    if (fontFamily != null) {
+      map['font-family'] = fontFamily!; // fontFamily will be just the string
+    }
+    if (decoration != null) {
+      map['text-decoration'] = decoration!.value; // Convert enum to CSS string
+    }
+    if (decorationColor != null) {
+      map['text-decoration-color'] =
+          decorationColor!.value; // Convert Color to CSS string
+    }
+    if (decorationStyle != null) {
+      map['text-decoration-style'] =
+          decorationStyle!.value; // Convert enum to CSS string
+    }
+    if (letterSpacing != null) map['letter-spacing'] = letterSpacing!.value;
+    if (wordSpacing != null) map['word-spacing'] = wordSpacing!.value;
+    if (lineHeight != null) map['line-height'] = lineHeight!.value;
+    if (fontStyle != null) map['font-style'] = fontStyle!.value;
+
+    return map;
+  }
+
+  TextStyle copyWith({
+    Unit? fontSize,
+    FontWeight? fontWeight,
+    Color? color,
+    String? fontFamily,
+    TextDecoration? decoration,
+    Color? decorationColor,
+    TextDecorationStyle? decorationStyle,
+    Unit? letterSpacing,
+    Unit? wordSpacing,
+    Unit? lineHeight,
+    FontStyle? fontStyle,
+  }) {
+    return TextStyle(
+      fontSize: fontSize ?? this.fontSize,
+      fontWeight: fontWeight ?? this.fontWeight,
+      color: color ?? this.color,
+      fontFamily: fontFamily ?? this.fontFamily,
+      decoration: decoration ?? this.decoration,
+      decorationColor: decorationColor ?? this.decorationColor,
+      decorationStyle: decorationStyle ?? this.decorationStyle,
+      letterSpacing: letterSpacing ?? this.letterSpacing,
+      wordSpacing: wordSpacing ?? this.wordSpacing,
+      lineHeight: lineHeight ?? this.lineHeight,
+      fontStyle: fontStyle ?? this.fontStyle,
+    );
+  }
+}
 
 /// Defines a set of standard text styles for various typography scales.
 /// Mimics Flutter's TextTheme for consistent text styling.
+///
+@JsonSerializable()
 class TextTheme {
-  final TextStyle headlineLarge; // New in M3, maps to headline1 sometimes
-  final TextStyle headlineMedium; // New in M3, maps to headline2 sometimes
-  final TextStyle headlineSmall; // New in M3, maps to headline3 sometimes
+  final TextStyle headlineLarge;
+  final TextStyle headlineMedium;
+  final TextStyle headlineSmall;
   final TextStyle displayLarge;
   final TextStyle displayMedium;
   final TextStyle displaySmall;

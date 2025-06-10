@@ -2,7 +2,6 @@ import 'package:jaspr/jaspr.dart';
 
 import 'package:dart_portfolio/components/components.dart';
 
-@client
 class Home extends StatefulComponent {
   const Home({super.key});
 

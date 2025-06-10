@@ -1,14 +1,22 @@
 import 'package:jaspr/jaspr.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'app_bar.dart';
 import 'buttons.dart';
 import 'colors.dart';
 import 'text.dart';
 
+export 'app_bar.dart';
+export 'buttons.dart';
+export 'colors.dart';
+export 'text.dart';
+
 enum Brightness { light, dark }
 
 /// The core class that defines the visual theme for a Jaspr application.
 /// Mimics Flutter's ThemeData, combining colors, typography, and component themes.
+
+@JsonSerializable()
 class ThemeData {
   final Brightness brightness;
   final ColorTheme colorScheme;
@@ -123,6 +131,11 @@ class ThemeData {
       defaultBorderRadius: defaultBorderRadius ?? 4.0,
     );
   }
+
+  factory ThemeData.fromJson(Map<String, dynamic> json) =>
+      _$ThemeDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ThemeDataToJson(this);
 }
 
 class Theme extends InheritedComponent {

@@ -9,7 +9,10 @@ import 'components.dart';
 /// The root component for a Jaspr application that provides theming and routing capabilities.
 ///
 /// This component aims to mimic the core functionalities of Flutter's `MaterialApp`.
-
+///
+/// It's a client component since this is a UI library, and it's meant to work on both client
+/// and server environments. Therefore, anybody using this UI library also can't use the @client
+/// directive since Jaspr doesn't allow nesting @client components.
 @client
 class JasprApp extends StatefulComponent {
   /// The title of the application, displayed in the browser tab.
@@ -165,7 +168,7 @@ class _JasprAppState extends State<JasprApp> {
     _applyDarkModeClass(newActiveTheme.brightness == Brightness.dark);
   }
 
-  /// Adds or removes the 'dark' class on the <html> element.
+  /// Adds or removes the 'dark' class on the &lt;html&gt; element.
   void _applyDarkModeClass(bool enableDark) {
     if (kIsWeb) {
       if (enableDark) {

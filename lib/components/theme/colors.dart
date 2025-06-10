@@ -1,7 +1,25 @@
 import 'package:jaspr/jaspr.dart';
 
+import 'package:json_annotation/json_annotation.dart';
+
+/// A [JsonConverter] that converts [Color] objects to and from their integer [value].
+class ColorConverter implements JsonConverter<Color, String> {
+  const ColorConverter();
+
+  @override
+  Color fromJson(String json) {
+    return Color(json);
+  }
+
+  @override
+  String toJson(Color object) {
+    return object.value;
+  }
+}
+
 /// Defines a set of semantic colors for a Material Design-like theme.
 /// Mimics Flutter's ColorScheme for consistent color usage.
+@JsonSerializable(converters: [ColorConverter()])
 class ColorTheme {
   final Color primary; // Primary brand color
   final Color primaryVariant; // Darker primary color
@@ -97,4 +115,8 @@ class ColorTheme {
       onError: onError ?? Colors.black,
     );
   }
+
+  ColorTheme.fromJson(Map<String, dynamic> json) => _$ColorThemeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ColorThemeToJson(this);
 }
