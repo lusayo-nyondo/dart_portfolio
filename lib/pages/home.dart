@@ -26,7 +26,7 @@ class HomeState extends State<Home> {
 
   @override
   build(BuildContext context) sync* {
-    yield HeaderFooterShell(
+    yield HeaderFooterScaffold(
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.px),

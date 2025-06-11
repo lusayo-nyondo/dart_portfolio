@@ -10,7 +10,7 @@ class App extends StatelessComponent {
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    yield HeaderFooterShell(
+    yield HeaderFooterScaffold(
       child: Container(
         child: TextComponent('Hey there!'),
       ),
