@@ -6,33 +6,59 @@ extension UnitExtension on Unit {
   ///
   /// Example: (10.px + 5.px) would return 15.0.
   ///
-  /// IMPORTANT: Due to Dart's extension method limitations for operators,
-  /// you CANNOT use the `+` operator syntax directly (e.g., `10.px + 5.px`)
-  /// unless the original `Unit` class itself defines `operator+`.
+  /// The reason why it returns a [double] is because Jaspr's [Unit]
+  /// class API doesn't expose the subclasses of [Unit]
+  /// that could tell us what kind specific kind of [Unit] we're
+  /// working with i.e. pixel, rem, em, etc.
   ///
-  /// To use this extension operator, you must explicitly call it:
-  /// `UnitArithmetic(10.px) + 5.px`
-  ///
-  /// If you want to use the `+` syntax, `operator+` must be defined
-  /// directly in the `Unit` class.
   double operator +(Unit other) {
     return double.parse(value) + double.parse(other.value);
   }
 
+  /// Defines a subtraction operation for two [Unit] objects,
+  /// returning the difference of their numerical values as a [double].
+  ///
+  /// Example: (10.px - 5.px) would return 5.0.
+  ///
+  /// The reason why it returns a [double] is because Jaspr's [Unit]
+  /// class API doesn't expose the subclasses of [Unit]
+  /// that could tell us what kind specific kind of [Unit] we're
+  /// working with i.e. pixel, rem, em, etc.
+  ///
   double operator -(Unit other) {
     return double.parse(value) - double.parse(other.value);
   }
 
+  /// Defines a multiplication operation between a [Unit] object,
+  /// and a [double], returning the result as a [double].
+  ///
+  /// Example: (10.px * 2) would return 20.0.
+  ///
+  /// The reason why it returns a [double] is because Jaspr's [Unit]
+  /// class API doesn't expose the subclasses of [Unit]
+  /// that could tell us what kind specific kind of [Unit] we're
+  /// working with i.e. pixel, rem, em, etc.
+  ///
   double operator *(double factor) {
     return double.parse(value) * factor;
   }
 
+  /// Defines a division operation between a [Unit] object,
+  /// and a [double], returning the result as a [double].
+  ///
+  /// Example: (10.px * 2) would return 20.0.
+  ///
+  /// The reason why it returns a [double] is because Jaspr's [Unit]
+  /// class API doesn't expose the subclasses of [Unit]
+  /// that could tell us what kind specific kind of [Unit] we're
+  /// working with i.e. pixel, rem, em, etc.
+  ///
   double operator /(double factor) {
     return double.parse(value) / factor;
   }
 
-  /// The following method defines how to parse a Unit object
-  /// from a String.
+  /// The following method defines how to parse a [Unit] object
+  /// from an arbitrary [String].
   static Unit parse(String cssValue) {
     final pxRegex = RegExp(r'^(\d+(?:\.\d+)?)px$');
     final percentRegex = RegExp(r'^(\d+(?:\.\d+)?)%$');
