@@ -35,11 +35,11 @@ class App extends StatelessComponent {
                   NavLink(
                       path: '/',
                       child: TextComponent('Home'),
-                      isActive: state.name == 'home'),
+                      isActive: state.fullpath == '/'),
                   NavLink(
                       path: '/about',
                       child: TextComponent('About'),
-                      isActive: state.name == 'about'),
+                      isActive: state.fullpath == '/about'),
                 ]),
               );
             },
