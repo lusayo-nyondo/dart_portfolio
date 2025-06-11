@@ -1,9 +1,13 @@
 import 'package:jaspr/jaspr.dart';
 
 import 'clip.dart';
+
+import 'custom_clipper.dart';
+
 import '../../containers/box_model/size.dart';
 import '../../containers/box_model/rect.dart';
-import 'custom_clipper.dart';
+
+import '../../extensions/units.dart';
 
 /// A component that clips its child using an oval.
 class ClipOval extends StatelessComponent {
@@ -32,11 +36,11 @@ class ClipOval extends StatelessComponent {
       if (clipper != null) {
         // If a custom clipper is provided, it defines the Rect.
         // We'll then map this Rect to an ellipse in the clip-path.
-        final dummySize = Size(200, 200); // Placeholder for actual size
+        final dummySize = Size(200.px, 200.px); // Placeholder for actual size
         final clipRect = clipper!.getClip(dummySize);
 
-        final centerX = clipRect.left + clipRect.width / 2;
-        final centerY = clipRect.top + clipRect.height / 2;
+        final centerX = clipRect.left + (clipRect.width / 2).px;
+        final centerY = clipRect.top + (clipRect.height / 2).px;
         final radiusX = clipRect.width / 2;
         final radiusY = clipRect.height / 2;
 

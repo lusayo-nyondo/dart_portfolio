@@ -88,7 +88,7 @@ class Container extends StatelessComponent {
           decoration!.border!.style != BorderStyle.none) {
         _border = Border(
           color: decoration!.border!.color,
-          width: decoration!.border!.width.px,
+          width: decoration!.border!.width,
           style: decoration!.border!.style == BorderStyle.solid
               ? BorderStyle.solid
               : BorderStyle.none,
@@ -110,13 +110,13 @@ class Container extends StatelessComponent {
 
     // 4. Handle constraints (min/max width/height)
     if (constraints != null) {
-      if (constraints!.minWidth != 0.0) _minWidth = constraints!.minWidth.px;
+      if (constraints!.minWidth != 0.0) _minWidth = constraints!.minWidth;
       if (constraints!.maxWidth != double.infinity) {
-        _maxWidth = constraints!.maxWidth.px;
+        _maxWidth = constraints!.maxWidth;
       }
-      if (constraints!.minHeight != 0.0) _minHeight = constraints!.minHeight.px;
+      if (constraints!.minHeight != 0.0) _minHeight = constraints!.minHeight;
       if (constraints!.maxHeight != double.infinity) {
-        _maxHeight = constraints!.maxHeight.px;
+        _maxHeight = constraints!.maxHeight;
       }
     }
 

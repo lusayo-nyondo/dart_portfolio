@@ -4,17 +4,17 @@ import 'package:jaspr/jaspr.dart';
 /// Mimics Flutter's [BorderSide].
 class BorderSide {
   final Color color;
-  final double width;
+  final Unit width;
   final BorderStyle style;
 
   const BorderSide({
     this.color = const Color('black'),
-    this.width = 1.0,
+    this.width = const Unit.pixels(1),
     this.style = BorderStyle.solid,
   });
 
   static const BorderSide none =
-      BorderSide(width: 0.0, style: BorderStyle.none);
+      BorderSide(width: Unit.zero, style: BorderStyle.none);
 }
 
 /// Represents a background decoration for a box.

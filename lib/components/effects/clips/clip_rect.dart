@@ -2,8 +2,10 @@ import 'package:jaspr/jaspr.dart';
 
 import 'custom_clipper.dart';
 import 'clip.dart';
+
 import '../../containers/box_model/size.dart';
 import '../../containers/box_model/rect.dart';
+import '../../extensions/units.dart';
 
 /// A component that clips its child using a rectangle.
 class ClipRect extends StatelessComponent {
@@ -45,7 +47,7 @@ class ClipRect extends StatelessComponent {
         // Placeholder: In a real scenario, this 'dummySize' would need to be
         // the actual size of the rendering area for the clipper.
         final dummySize =
-            Size(200, 200); // Assume a default or calculate from context
+            Size(200.px, 200.px); // Assume a default or calculate from context
         final clipRect = clipper!.getClip(dummySize);
 
         // This CSS clip-path assumes the clipped content is within the parent.

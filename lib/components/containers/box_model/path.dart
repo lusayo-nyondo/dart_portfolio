@@ -1,5 +1,9 @@
+import 'package:jaspr/jaspr.dart';
+
 import 'rect.dart';
 import 'offset.dart';
+
+import '../../extensions/units.dart';
 
 class Path {
   final String _svgPathData;
@@ -9,7 +13,7 @@ class Path {
             'M${rect.left},${rect.top} L${rect.right},${rect.top} L${rect.right},${rect.bottom} L${rect.left},${rect.bottom} Z';
   Path.oval(Rect rect)
       : _svgPathData =
-            'M ${rect.left + rect.width / 2},${rect.top} A ${rect.width / 2},${rect.height / 2} 0 1,0 ${rect.left + rect.width / 2},${rect.bottom} A ${rect.width / 2},${rect.height / 2} 0 1,0 ${rect.left + rect.width / 2},${rect.top} Z';
+            'M ${rect.left + (rect.width / 2).px},${rect.top} A ${rect.width / 2},${rect.height / 2} 0 1,0 ${rect.left + (rect.width / 2).px},${rect.bottom} A ${rect.width / 2},${rect.height / 2} 0 1,0 ${rect.left + (rect.width / 2).px},${rect.top} Z';
   Path.arcToPoint({
     required Offset arcStartPoint,
     required Offset arcEndPoint,

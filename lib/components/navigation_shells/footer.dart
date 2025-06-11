@@ -9,6 +9,7 @@ class Footer extends StatelessComponent {
   Iterable<Component> build(BuildContext context) sync* {
     yield Container(
       height: 120.px,
+      width: 100.percent,
       child: footer(
         classes: [
           'flex',

@@ -42,24 +42,23 @@ class SizedOverflowBox extends StatelessComponent {
   @override
   build(BuildContext context) sync* {
     // Collect all style properties
-    Unit? _width = size?.width.px;
-    Unit? _height = size?.height.px;
+    Unit? _width = size?.width;
+    Unit? _height = size?.height;
     Unit? _minWidth;
     Unit? _maxWidth;
     Unit? _minHeight;
     Unit? _maxHeight;
 
     if (constraints != null) {
-      _minWidth ??=
-          constraints!.minWidth == 0.0 ? null : constraints!.minWidth.px;
+      _minWidth ??= constraints!.minWidth == 0.0 ? null : constraints!.minWidth;
       _maxWidth ??= constraints!.maxWidth == double.infinity
           ? null
-          : constraints!.maxWidth.px;
+          : constraints!.maxWidth;
       _minHeight ??=
-          constraints!.minHeight == 0.0 ? null : constraints!.minHeight.px;
+          constraints!.minHeight == 0.0 ? null : constraints!.minHeight;
       _maxHeight ??= constraints!.maxHeight == double.infinity
           ? null
-          : constraints!.maxHeight.px;
+          : constraints!.maxHeight;
     }
 
     yield div(
@@ -78,8 +77,8 @@ class SizedOverflowBox extends StatelessComponent {
               'absolute', // Position the child absolutely within the SizedOverflowBox
           styles: Styles(
             position: Position.absolute(
-              top: 0.px,
-              left: 0.px,
+              top: Unit.zero,
+              left: Unit.zero,
             ),
             // Align the child within the SizedOverflowBox
             justifyContent: _getJustifyContent(alignment),

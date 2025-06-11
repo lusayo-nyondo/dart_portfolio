@@ -22,8 +22,9 @@ class _HeaderFooterShellState extends State<HeaderFooterShell> {
   @override
   Iterable<Component> build(BuildContext context) sync* {
     yield Container(
-      height: 100.percent,
-      width: 100.percent,
+      constraints: BoxConstraints(
+        minHeight: 100.vh,
+      ),
       child: Router(routes: [
         ShellRoute(
           builder: (context, state, child) => Column(children: [

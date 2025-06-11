@@ -1,10 +1,5 @@
 import 'package:jaspr/jaspr.dart';
-import 'package:jaspr_router/jaspr_router.dart';
-
 import 'components/components.dart';
-
-import 'pages/about.dart';
-import 'pages/home.dart';
 
 // The main component of your application.
 //
@@ -15,24 +10,10 @@ class App extends StatelessComponent {
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    yield Scaffold(
-      appBar: AppBar(
-          title: Row(spacing: 12, children: [
-        Button(child: Link(to: '/', child: text('Home')), onPressed: () => {}),
-        Button(
-            child: Link(to: '/about', child: text('About')),
-            onPressed: () => {}),
-      ])),
-      body: Router(routes: [
-        Route(
-            path: '/',
-            title: 'Home',
-            builder: (context, state) => const Home()),
-        Route(
-            path: '/about',
-            title: 'About',
-            builder: (context, state) => const About()),
-      ]),
+    yield HeaderFooterShell(
+      child: Container(
+        child: TextComponent('Hey there!'),
+      ),
     );
   }
 }

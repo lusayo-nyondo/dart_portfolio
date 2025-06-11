@@ -17,12 +17,12 @@ import 'align.dart';
 class OverflowBox extends StatelessComponent {
   final BoxConstraints? constraints;
   final Component child;
-  final double? maxWidth;
-  final double? maxHeight;
-  final double? minWidth;
-  final double? minHeight;
-  final double? width;
-  final double? height;
+  final Unit? maxWidth;
+  final Unit? maxHeight;
+  final Unit? minWidth;
+  final Unit? minHeight;
+  final Unit? width;
+  final Unit? height;
   final Alignment alignment;
 
   const OverflowBox({
@@ -54,24 +54,21 @@ class OverflowBox extends StatelessComponent {
   @override
   build(BuildContext context) sync* {
     // Collect all style properties
-    Unit? _width = width?.px;
-    Unit? _height = height?.px;
-    Unit? _minWidth = minWidth?.px;
-    Unit? _maxWidth = maxWidth?.px;
-    Unit? _minHeight = minHeight?.px;
-    Unit? _maxHeight = maxHeight?.px;
+    Unit? _width = width;
+    Unit? _height = height;
+    Unit? _minWidth = minWidth;
+    Unit? _maxWidth = maxWidth;
+    Unit? _minHeight = minHeight;
+    Unit? _maxHeight = maxHeight;
 
     if (constraints != null) {
-      _minWidth ??=
-          constraints!.minWidth == 0.0 ? null : constraints!.minWidth.px;
-      _maxWidth ??= constraints!.maxWidth == double.infinity
-          ? null
-          : constraints!.maxWidth.px;
+      _minWidth ??= constraints!.minWidth == 0.0 ? null : constraints!.minWidth;
+      _maxWidth ??=
+          constraints!.maxWidth == Unit.auto ? null : constraints!.maxWidth;
       _minHeight ??=
-          constraints!.minHeight == 0.0 ? null : constraints!.minHeight.px;
-      _maxHeight ??= constraints!.maxHeight == double.infinity
-          ? null
-          : constraints!.maxHeight.px;
+          constraints!.minHeight == 0.0 ? null : constraints!.minHeight;
+      _maxHeight ??=
+          constraints!.maxHeight == Unit.auto ? null : constraints!.maxHeight;
     }
 
     yield div(
@@ -90,8 +87,8 @@ class OverflowBox extends StatelessComponent {
               'absolute', // Position the child absolutely within the OverflowBox
           styles: Styles(
             position: Position.absolute(
-              top: 0.px,
-              left: 0.px,
+              top: Unit.zero,
+              left: Unit.zero,
             ),
             // Align the child within the OverflowBox
             justifyContent: _getJustifyContent(alignment),

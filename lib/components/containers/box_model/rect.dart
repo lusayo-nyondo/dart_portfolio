@@ -1,10 +1,14 @@
+import 'package:jaspr/jaspr.dart';
+
+import '../../extensions/units.dart';
+
 class Rect {
-  final double left;
-  final double top;
-  final double width;
-  final double height;
-  double get right => left + width;
-  double get bottom => top + height;
+  final Unit left;
+  final Unit top;
+  final Unit width;
+  final Unit height;
+  Unit get right => (left + width).px;
+  Unit get bottom => (top + height).px;
   const Rect.fromLTWH(this.left, this.top, this.width, this.height);
   @override
   bool operator ==(Object other) =>

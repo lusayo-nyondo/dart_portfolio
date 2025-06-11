@@ -23,15 +23,14 @@ class ConstrainedBox extends StatelessComponent {
     yield div(
       // Apply CSS min/max properties based on the constraints
       styles: Styles(
-        minWidth: constraints.minWidth == 0.0 ? null : constraints.minWidth.px,
+        minWidth: constraints.minWidth == 0.0 ? null : constraints.minWidth,
         maxWidth: constraints.maxWidth == double.infinity
             ? null
-            : constraints.maxWidth.px,
-        minHeight:
-            constraints.minHeight == 0.0 ? null : constraints.minHeight.px,
+            : constraints.maxWidth,
+        minHeight: constraints.minHeight == 0.0 ? null : constraints.minHeight,
         maxHeight: constraints.maxHeight == double.infinity
             ? null
-            : constraints.maxHeight.px,
+            : constraints.maxHeight,
       ),
       [child],
     );

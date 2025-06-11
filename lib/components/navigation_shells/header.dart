@@ -9,6 +9,7 @@ class Header extends StatelessComponent {
   Iterable<Component> build(BuildContext context) sync* {
     yield Container(
       height: 60.px,
+      width: 100.percent,
       child: header(
         classes: [
           'flex',

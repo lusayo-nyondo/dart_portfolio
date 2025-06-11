@@ -28,7 +28,7 @@ class ClipPath extends StatelessComponent {
       // Placeholder: In a real scenario, this 'dummySize' would need to be
       // the actual size of the rendering area for the clipper.
       final dummySize =
-          Size(200, 200); // Assume a default or calculate from context
+          Size(200.px, 200.px); // Assume a default or calculate from context
       final path = clipper.getClip(dummySize);
 
       clipStyles['clip-path'] = 'path("${path.toSvgPathData()}")';

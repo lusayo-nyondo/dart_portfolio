@@ -1,25 +1,27 @@
+import 'package:jaspr/jaspr.dart';
+
 /// Defines minimum and maximum dimensions for a box.
 ///
 /// Mimics Flutter's [BoxConstraints].
 class BoxConstraints {
-  final double minWidth;
-  final double maxWidth;
-  final double minHeight;
-  final double maxHeight;
+  final Unit minWidth;
+  final Unit maxWidth;
+  final Unit minHeight;
+  final Unit maxHeight;
 
   const BoxConstraints({
-    this.minWidth = 0.0,
-    this.maxWidth = double.infinity,
-    this.minHeight = 0.0,
-    this.maxHeight = double.infinity,
+    this.minWidth = Unit.zero,
+    this.maxWidth = Unit.auto,
+    this.minHeight = Unit.zero,
+    this.maxHeight = Unit.auto,
   });
 
   /// Creates box constraints that are as tight as possible.
   ///
   /// Requires a child to be exactly the given [width] and [height].
   const BoxConstraints.tight({
-    required double width,
-    required double height,
+    required Unit width,
+    required Unit height,
   })  : minWidth = width,
         maxWidth = width,
         minHeight = height,
@@ -30,23 +32,23 @@ class BoxConstraints {
   /// This constructor is similar to [BoxConstraints.tight] but allows
   /// width and height to be `null` to represent unbounded dimensions.
   const BoxConstraints.tightFor({
-    double? width,
-    double? height,
-  })  : minWidth = width ?? 0.0,
-        maxWidth = width ?? double.infinity,
-        minHeight = height ?? 0.0,
-        maxHeight = height ?? double.infinity;
+    Unit? width,
+    Unit? height,
+  })  : minWidth = width ?? Unit.zero,
+        maxWidth = width ?? Unit.auto,
+        minHeight = height ?? Unit.zero,
+        maxHeight = height ?? Unit.auto;
 
   /// Creates box constraints that forbid a dimension from being larger than a given value.
   ///
-  /// The minimum width and height are 0.0.
+  /// The minimum width and height are Unit.zero.
   const BoxConstraints.loose({
-    double? width,
-    double? height,
-  })  : minWidth = 0.0,
-        maxWidth = width ?? double.infinity,
-        minHeight = 0.0,
-        maxHeight = height ?? double.infinity;
+    Unit? width,
+    Unit? height,
+  })  : minWidth = Unit.zero,
+        maxWidth = width ?? Unit.auto,
+        minHeight = Unit.zero,
+        maxHeight = height ?? Unit.auto;
 
   @override
   String toString() {
