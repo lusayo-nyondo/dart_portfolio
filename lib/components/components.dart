@@ -4,6 +4,5 @@ export 'containers/containers.dart';
 export 'effects/effects.dart';
 export 'extensions/extensions.dart';
 export 'interactions/interactions.dart';
-export 'shared_state.dart';
 export 'theme/theme.dart';
 export 'themed/themed.dart';
