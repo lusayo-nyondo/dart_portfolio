@@ -26,13 +26,8 @@ class HomeState extends State<Home> {
 
   @override
   build(BuildContext context) sync* {
-    yield HeaderFooterScaffold(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.px),
-          color: Colors.blueViolet,
-        ),
-      ),
+    yield Center(
+      child: TextComponent('Home page.'),
     );
   }
 }
