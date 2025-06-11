@@ -110,12 +110,19 @@ class Container extends StatelessComponent {
 
     // 4. Handle constraints (min/max width/height)
     if (constraints != null) {
-      if (constraints!.minWidth != 0.0) _minWidth = constraints!.minWidth;
-      if (constraints!.maxWidth != double.infinity) {
+      if (constraints!.minWidth != Unit.zero) {
+        _minWidth = constraints!.minWidth;
+        _width ??= _minWidth;
+      }
+
+      if (constraints!.maxWidth != Unit.auto) {
         _maxWidth = constraints!.maxWidth;
       }
-      if (constraints!.minHeight != 0.0) _minHeight = constraints!.minHeight;
-      if (constraints!.maxHeight != double.infinity) {
+      if (constraints!.minHeight != Unit.zero) {
+        _minHeight = constraints!.minHeight;
+        _height ??= _minHeight;
+      }
+      if (constraints!.maxHeight != Unit.auto) {
         _maxHeight = constraints!.maxHeight;
       }
     }
