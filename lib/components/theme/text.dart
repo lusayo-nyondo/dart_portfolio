@@ -2,7 +2,12 @@ import 'package:jaspr/jaspr.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
+import '../extensions/extensions.dart';
+
+part 'text.g.dart';
+
 /// An enum for specifying text direction.
+@JsonEnum()
 enum TextDirection {
   ltr,
   rtl,
@@ -11,6 +16,13 @@ enum TextDirection {
 /// An immutable style describing how to format text.
 ///
 /// Mimics Flutter's [TextStyle] class.
+@JsonSerializable(converters: [
+  ColorConverter(),
+  FontWeightConverter(),
+  TextDecorationConverter(),
+  FontStyleConverter(),
+  UnitConverter(),
+])
 class TextStyle {
   final Unit? fontSize;
   final FontWeight? fontWeight; // Jaspr's FontWeight enum
@@ -104,6 +116,11 @@ class TextStyle {
       fontStyle: fontStyle ?? this.fontStyle,
     );
   }
+
+  factory TextStyle.fromJson(Map<String, dynamic> json) =>
+      _$TextStyleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TextStyleToJson(this);
 }
 
 /// Defines a set of standard text styles for various typography scales.
@@ -284,4 +301,9 @@ class TextTheme {
       labelSmall: labelSmall ?? this.labelSmall,
     );
   }
+
+  factory TextTheme.fromJson(Map<String, dynamic> json) =>
+      _$TextThemeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TextThemeToJson(this);
 }

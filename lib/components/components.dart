@@ -1,10 +1,8 @@
-export 'extensions.dart';
-export 'encoding.dart';
-
 export 'app.dart';
 export 'assets/assets.dart';
 export 'containers/containers.dart';
 export 'effects/effects.dart';
+export 'extensions/extensions.dart';
 export 'interactions/interactions.dart';
 export 'shared_state.dart';
 export 'theme/theme.dart';

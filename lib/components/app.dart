@@ -10,10 +10,6 @@ import 'components.dart';
 ///
 /// This component aims to mimic the core functionalities of Flutter's `MaterialApp`.
 ///
-/// It's a client component since this is a UI library, and it's meant to work on both client
-/// and server environments. Therefore, anybody using this UI library also can't use the @client
-/// directive since Jaspr doesn't allow nesting @client components.
-@client
 class JasprApp extends StatefulComponent {
   /// The title of the application, displayed in the browser tab.
   final String title;

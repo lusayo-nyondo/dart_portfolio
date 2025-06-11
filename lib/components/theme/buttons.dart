@@ -1,9 +1,19 @@
 import 'package:jaspr/jaspr.dart';
 
+import 'package:json_annotation/json_annotation.dart';
+
 import 'text.dart';
 
+import '../extensions/extensions.dart';
+
+part 'buttons.g.dart';
+
 /// Defines the visual properties for standard buttons within the theme.
-class ButtonThemeData {
+@JsonSerializable(converters: [
+  ColorConverter(),
+  SpacingConverter(),
+])
+class ButtonTheme {
   final Color? backgroundColor;
   final Color? foregroundColor; // Color of text/icons on the button
   final TextStyle? textStyle;
@@ -11,7 +21,7 @@ class ButtonThemeData {
   final double? borderRadius; // Corner radius in pixels
   final double? elevation; // For shadow
 
-  const ButtonThemeData({
+  const ButtonTheme({
     this.backgroundColor,
     this.foregroundColor,
     this.textStyle,
@@ -19,4 +29,9 @@ class ButtonThemeData {
     this.borderRadius,
     this.elevation,
   });
+
+  factory ButtonTheme.fromJson(Map<String, dynamic> json) =>
+      _$ButtonThemeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ButtonThemeToJson(this);
 }

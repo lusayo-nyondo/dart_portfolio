@@ -3,7 +3,7 @@ import 'package:jaspr/jaspr.dart';
 
 import '../../assets/icon.dart';
 import '../../containers/align.dart';
-import '../../extensions.dart';
+import '../../extensions/extensions.dart';
 
 /// A Jaspr component that creates a Material Design icon button.
 ///

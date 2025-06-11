@@ -1,3 +1,4 @@
+import 'package:dart_portfolio/components/extensions/extensions.dart';
 import 'package:jaspr/jaspr.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -11,18 +12,19 @@ export 'buttons.dart';
 export 'colors.dart';
 export 'text.dart';
 
+part 'theme.g.dart';
+
 enum Brightness { light, dark }
 
 /// The core class that defines the visual theme for a Jaspr application.
 /// Mimics Flutter's ThemeData, combining colors, typography, and component themes.
-
-@JsonSerializable()
+@JsonSerializable(converters: [ColorConverter()])
 class ThemeData {
   final Brightness brightness;
   final ColorTheme colorScheme;
   final TextTheme textTheme;
   final AppBarTheme appBarTheme;
-  final ButtonThemeData buttonTheme;
+  final ButtonTheme buttonTheme;
 
   // Global defaults
   final String? fontFamily;
@@ -34,7 +36,7 @@ class ThemeData {
     required this.textTheme,
     this.brightness = Brightness.dark,
     this.appBarTheme = const AppBarTheme(),
-    this.buttonTheme = const ButtonThemeData(),
+    this.buttonTheme = const ButtonTheme(),
     this.fontFamily,
     this.scaffoldBackgroundColor,
     this.defaultBorderRadius = 4.0, // Default Material-like border radius
@@ -45,7 +47,7 @@ class ThemeData {
     ColorTheme? colorScheme,
     TextTheme? textTheme,
     AppBarTheme? appBarTheme,
-    ButtonThemeData? buttonTheme,
+    ButtonTheme? buttonTheme,
     String? fontFamily,
     Color? scaffoldBackgroundColor,
     double? defaultBorderRadius,
@@ -69,7 +71,7 @@ class ThemeData {
             elevation: 4.0, // Default app bar shadow
           ),
       buttonTheme: buttonTheme ??
-          ButtonThemeData(
+          ButtonTheme(
             backgroundColor: defaultColorTheme.primary,
             foregroundColor: defaultColorTheme.onPrimary,
             textStyle: defaultTextTheme.labelLarge
@@ -90,7 +92,7 @@ class ThemeData {
     ColorTheme? colorScheme,
     TextTheme? textTheme,
     AppBarTheme? appBarTheme,
-    ButtonThemeData? buttonTheme,
+    ButtonTheme? buttonTheme,
     String? fontFamily,
     Color? scaffoldBackgroundColor,
     double? defaultBorderRadius,
@@ -116,7 +118,7 @@ class ThemeData {
             elevation: 4.0,
           ),
       buttonTheme: buttonTheme ??
-          ButtonThemeData(
+          ButtonTheme(
             backgroundColor: defaultColorTheme.primary,
             foregroundColor: defaultColorTheme.onPrimary,
             textStyle: defaultTextTheme.labelLarge
@@ -132,9 +134,11 @@ class ThemeData {
     );
   }
 
+  @decoder
   factory ThemeData.fromJson(Map<String, dynamic> json) =>
       _$ThemeDataFromJson(json);
 
+  @encoder
   Map<String, dynamic> toJson() => _$ThemeDataToJson(this);
 }
 
@@ -162,6 +166,7 @@ class Theme extends InheritedComponent {
 }
 
 // lib/theme/theme_mode.dart
+@JsonEnum()
 enum ThemeMode {
   system, // Respects user's system preferences (prefers-color-scheme)
   light, // Always light mode
