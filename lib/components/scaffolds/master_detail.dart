@@ -6,8 +6,8 @@ import '../components.dart';
 import 'header.dart';
 import 'footer.dart';
 
-class SidebarScaffold extends StatefulComponent {
-  const SidebarScaffold({
+class MasterDetailScaffold extends StatefulComponent {
+  const MasterDetailScaffold({
     required this.child,
     super.key,
   });
@@ -15,10 +15,10 @@ class SidebarScaffold extends StatefulComponent {
   final Component child;
 
   @override
-  State<SidebarScaffold> createState() => _SidebarScaffoldState();
+  State<MasterDetailScaffold> createState() => _MasterDetailScaffoldState();
 }
 
-class _SidebarScaffoldState extends State<SidebarScaffold> {
+class _MasterDetailScaffoldState extends State<MasterDetailScaffold> {
   @override
   Iterable<Component> build(BuildContext context) sync* {
     yield Container(

@@ -6,8 +6,8 @@ import '../components.dart';
 import 'header.dart';
 import 'footer.dart';
 
-class HeaderFooterShell extends StatefulComponent {
-  const HeaderFooterShell({
+class HeaderFooterScaffold extends StatefulComponent {
+  const HeaderFooterScaffold({
     required this.child,
     super.key,
   });
@@ -15,10 +15,10 @@ class HeaderFooterShell extends StatefulComponent {
   final Component child;
 
   @override
-  State<HeaderFooterShell> createState() => _HeaderFooterShellState();
+  State<HeaderFooterScaffold> createState() => _HeaderFooterScaffoldState();
 }
 
-class _HeaderFooterShellState extends State<HeaderFooterShell> {
+class _HeaderFooterScaffoldState extends State<HeaderFooterScaffold> {
   @override
   Iterable<Component> build(BuildContext context) sync* {
     yield Container(
