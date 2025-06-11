@@ -4,6 +4,8 @@ export 'expanded.dart';
 export 'flexible.dart';
 export 'row.dart';
 export 'column.dart';
+export 'intrinsic_height.dart';
+export 'intrinsic_width.dart';
 
 enum MainAxisAlignment {
   start,

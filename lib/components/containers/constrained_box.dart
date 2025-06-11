@@ -2,6 +2,8 @@ import 'package:jaspr/jaspr.dart';
 
 import 'box_model/box_constraints.dart'; // Import the BoxConstraints class
 
+import 'container.dart';
+
 /// A widget that imposes additional constraints on its child.
 ///
 /// Mimics Flutter's [ConstrainedBox] widget.
@@ -20,19 +22,9 @@ class ConstrainedBox extends StatelessComponent {
 
   @override
   build(BuildContext context) sync* {
-    yield div(
-      // Apply CSS min/max properties based on the constraints
-      styles: Styles(
-        minWidth: constraints.minWidth == 0.0 ? null : constraints.minWidth,
-        maxWidth: constraints.maxWidth == double.infinity
-            ? null
-            : constraints.maxWidth,
-        minHeight: constraints.minHeight == 0.0 ? null : constraints.minHeight,
-        maxHeight: constraints.maxHeight == double.infinity
-            ? null
-            : constraints.maxHeight,
-      ),
-      [child],
+    yield Container(
+      constraints: constraints,
+      child: child,
     );
   }
 }
