@@ -138,8 +138,8 @@ class Container extends StatelessComponent {
     yield div(
       classes: classes.join(' '),
       styles: Styles(
-        width: _width,
-        height: _height,
+        width: _width ?? 100.percent,
+        height: _height ?? 100.percent,
         minWidth: _minWidth,
         maxWidth: _maxWidth,
         minHeight: _minHeight,

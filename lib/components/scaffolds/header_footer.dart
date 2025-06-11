@@ -3,7 +3,6 @@ import 'package:jaspr_router/jaspr_router.dart';
 
 // Assuming these are your components
 import '../components.dart';
-import 'header.dart';
 import 'footer.dart';
 
 class HeaderFooterScaffold extends StatefulComponent {
@@ -28,18 +27,12 @@ class _HeaderFooterScaffoldState extends State<HeaderFooterScaffold> {
   // Store the previous RouteState to compare
   RouteState? _previousRouteState;
 
-  @override
-  void initState() {
-    super.initState();
-    // Initialize previous state if needed, though the first build will set it
-  }
-
   // The actual "listener" logic will be inside the builder
   @override
   Iterable<Component> build(BuildContext context) sync* {
     yield Container(
       constraints: BoxConstraints(
-        minHeight: 100.vh,
+        minHeight: 100.percent,
       ),
       child: Router(routes: [
         ShellRoute(
@@ -62,10 +55,19 @@ class _HeaderFooterScaffoldState extends State<HeaderFooterScaffold> {
             _previousRouteState = state;
 
             return Column(children: [
-              // Use the headerBuilder if provided, otherwise default Header
-              component.headerBuilder != null
-                  ? component.headerBuilder!(context, state)
-                  : Header(),
+              if (component.headerBuilder != null)
+                Container(
+                  height: 60.px,
+                  width: 100.percent,
+                  alignment: Alignment.centerLeft,
+                  child: header(
+                    classes: 'w-full h-full',
+                    [
+                      component.headerBuilder!(context, state),
+                    ],
+                  ),
+                ),
+
               Expanded(
                 child: child,
               ),

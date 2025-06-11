@@ -15,26 +15,45 @@ class App extends StatelessComponent {
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    yield HeaderFooterScaffold(
-        headerBuilder: (context, state) => Row(spacing: 20, children: [
-              Link(
-                  to: '/',
-                  child:
-                      Button(child: TextComponent('Home'), onPressed: () {})),
-              Link(
-                  to: '/about',
-                  child:
-                      Button(child: TextComponent('About'), onPressed: () {})),
-            ]),
-        routes: [
-          Route(
-            path: '/',
-            builder: (context, state) => Home(),
-          ),
-          Route(
-            path: '/about',
-            builder: (context, state) => About(),
-          ),
-        ]);
+    yield Container(
+        height: 100.vh,
+        child: HeaderFooterScaffold(
+            headerBuilder: (context, state) {
+              print("Header builder gotten state: $state");
+              print("Route name: ${state.name}");
+              return Container(
+                padding: Padding.all(6.px),
+                decoration: BoxDecoration(
+                  boxShadow: BoxShadow(
+                      offsetX: 0.px,
+                      offsetY: 0.px,
+                      blur: 2.px,
+                      spread: 0.1.px,
+                      color: Color.rgba(0, 0, 0, 0.8)),
+                ),
+                child: Row(spacing: 20, children: [
+                  NavLink(
+                      path: '/',
+                      child: TextComponent('Home'),
+                      isActive: state.name == 'home'),
+                  NavLink(
+                      path: '/about',
+                      child: TextComponent('About'),
+                      isActive: state.name == 'about'),
+                ]),
+              );
+            },
+            routes: [
+              Route(
+                path: '/',
+                name: 'home',
+                builder: (context, state) => Home(),
+              ),
+              Route(
+                path: '/about',
+                name: 'about',
+                builder: (context, state) => About(),
+              ),
+            ]));
   }
 }

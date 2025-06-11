@@ -3,7 +3,6 @@ import 'package:jaspr_router/jaspr_router.dart';
 
 import '../components.dart';
 
-import 'header.dart';
 import 'footer.dart';
 
 class TabbedScaffold extends StatefulComponent {
@@ -28,7 +27,6 @@ class _TabbedScaffoldState extends State<TabbedScaffold> {
       child: Router(routes: [
         ShellRoute(
           builder: (context, state, child) => Column(children: [
-            Header(),
             Expanded(
               child: component.child,
             ),
