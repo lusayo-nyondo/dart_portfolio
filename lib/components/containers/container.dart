@@ -26,8 +26,8 @@ class Container extends StatelessComponent {
   final Spacing? padding;
   final Color? color; // Background color
   final BoxDecoration? decoration; // Overrides 'color' if both are present
-  final double? width;
-  final double? height;
+  final Unit? width;
+  final Unit? height;
   final BoxConstraints? constraints;
   final Spacing? margin;
   // final String? transform; // For CSS transform string like 'rotate(45deg)'
@@ -51,8 +51,8 @@ class Container extends StatelessComponent {
     final List<String> classes = [];
 
     // --- Prepare CSS properties for the Styles constructor ---
-    Unit? _width = width?.px;
-    Unit? _height = height?.px;
+    Unit? _width = width;
+    Unit? _height = height;
     Unit? _minWidth;
     Unit? _maxWidth;
     Unit? _minHeight;
@@ -105,8 +105,8 @@ class Container extends StatelessComponent {
     }
 
     // 3. Handle width and height
-    _width = width?.px;
-    _height = height?.px;
+    _width = width;
+    _height = height;
 
     // 4. Handle constraints (min/max width/height)
     if (constraints != null) {

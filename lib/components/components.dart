@@ -3,6 +3,7 @@ export 'assets/assets.dart';
 export 'containers/containers.dart';
 export 'effects/effects.dart';
 export 'extensions/extensions.dart';
+export 'navigation_shells/navigation_shells.dart';
 export 'interactions/interactions.dart';
 export 'theme/theme.dart';
 export 'themed/themed.dart';

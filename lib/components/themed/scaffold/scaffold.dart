@@ -97,7 +97,7 @@ class _ScaffoldState extends State<Scaffold> {
 
         // 2. Body (takes up the remaining flexible space and handles its own scrolling)
         div(
-          classes: 'flex-grow' 'overflow-y-auto',
+          classes: 'flex-grow overflow-y-auto',
           [component.body],
         ),
 

@@ -26,25 +26,13 @@ class HomeState extends State<Home> {
 
   @override
   build(BuildContext context) sync* {
-    yield Container(
-      color: Colors.white,
-      margin: Spacing.all(8.px),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.px),
+    yield HeaderFooterShell(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.px),
+          color: Colors.blueViolet,
+        ),
       ),
-      padding: Spacing.all(20.px),
-      child: Column.separated(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Navbar(),
-            Expanded(
-              child: Column(spacing: 20, children: [
-                TextField(labelText: 'username', placeholder: 'johndoe'),
-                TextField(labelText: 'password', obscureText: true),
-              ]),
-            ),
-          ],
-          separatorBuilder: Divider()),
     );
   }
 }
