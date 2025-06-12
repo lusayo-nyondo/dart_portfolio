@@ -28,14 +28,19 @@ class App extends StatelessComponent {
                       right: BorderSide(width: 1.px, color: Colors.black)),
                 ),
                 child: Column(spacing: 8, children: [
-                  NavLink(
+                  PanelLink(
                       path: '/',
                       child: TextComponent('Home'),
                       isActive: routeState.fullpath == '/'),
-                  NavLink(
+                  PanelLink(
                       path: '/about',
                       child: TextComponent('About'),
                       isActive: routeState.fullpath == '/about'),
+                  PanelLink(
+                    path: '/nested',
+                    child: TextComponent('Nested Scaffold'),
+                    isActive: routeState.fullpath == '/nested',
+                  ),
                 ]),
               ),
           routes: <RouteBase>[
@@ -44,51 +49,62 @@ class App extends StatelessComponent {
                 path: '/about',
                 name: 'about',
                 builder: (context, state) => Center(child: About())),
+            Route(
+              path: '/nested',
+              name: 'nested',
+              builder: (context, state) => getNested(context),
+            )
           ]),
     );
   }
-  /*
-  @override
-  Iterable<Component> build(BuildContext context) sync* {
-    yield Container(
+
+  Component getNested(BuildContext context) {
+    return Container(
         height: 100.vh,
         child: HeaderFooterScaffold(
-            headerBuilder: (context, state) {
-              print("Header builder gotten state: $state");
-              print("Route name: ${state.name}");
-              return Container(
-                padding: Padding.all(6.px),
-                decoration: BoxDecoration(
-                  boxShadow: BoxShadow(
-                      offsetX: 0.px,
-                      offsetY: 0.px,
-                      blur: 2.px,
-                      spread: 0.1.px,
-                      color: Color.rgba(0, 0, 0, 0.8)),
-                ),
-                child: Row(spacing: 20, children: [
-                  NavLink(
-                      path: '/',
-                      child: TextComponent('Home'),
-                      isActive: state.fullpath == '/'),
-                  NavLink(
-                      path: '/about',
-                      child: TextComponent('About'),
-                      isActive: state.fullpath == '/about'),
-                ]),
-              );
-            },
-            routes: [
-              Route(
-                path: '/',
-                name: 'home',
-                builder: (context, state) => Home(),
+          headerBuilder: (context, state) {
+            print("Header builder gotten state: $state");
+            print("Route name: ${state.name}");
+            return Container(
+              padding: Padding.all(6.px),
+              decoration: BoxDecoration(
+                boxShadow: BoxShadow(
+                    offsetX: 0.px,
+                    offsetY: 0.px,
+                    blur: 2.px,
+                    spread: 0.1.px,
+                    color: Color.rgba(0, 0, 0, 0.8)),
               ),
-              Route(
-                path: '/about',
-                name: 'about',
-                builder: (context, state) => About(),
-              ),
-            ]));
-  }*/
+              child: Row(spacing: 20, children: [
+                NavLink(
+                    path: '/',
+                    child: TextComponent('Home'),
+                    isActive: state.fullpath == '/'),
+                NavLink(
+                    path: '/about',
+                    child: TextComponent('About'),
+                    isActive: state.fullpath == '/about'),
+              ]),
+            );
+          },
+          routes: [
+            Route(
+              path: '/',
+              name: 'home',
+              builder: (context, state) => Home(),
+            ),
+            Route(
+              path: '/about',
+              name: 'about',
+              builder: (context, state) => About(),
+            ),
+            Route(
+              path: '/nested',
+              name: 'nested',
+              builder: (context, state) =>
+                  Center(child: TextComponent('Deep nesting')),
+            )
+          ],
+        ));
+  }
 }
