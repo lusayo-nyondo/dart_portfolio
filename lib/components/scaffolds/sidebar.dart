@@ -1,4 +1,5 @@
 import 'package:jaspr/jaspr.dart';
+import 'package:jaspr_router/jaspr_router.dart';
 
 // Assuming '../components.dart' exports:
 // - Container (from lib/components/containers/container.dart)
@@ -131,6 +132,7 @@ class SidebarScaffold extends StatefulComponent {
   final Color? backgroundColor; // Optional background for the whole scaffold
   final SidebarPanelController? sidebarController;
   final SidebarPanelController? detailBarController;
+  final List<RouteBase> routes;
 
   const SidebarScaffold({
     required this.child,
@@ -142,6 +144,7 @@ class SidebarScaffold extends StatefulComponent {
     this.backgroundColor,
     this.sidebarController,
     this.detailBarController,
+    required this.routes,
     super.key,
   });
 
@@ -150,7 +153,8 @@ class SidebarScaffold extends StatefulComponent {
 }
 
 class _SidebarScaffoldState extends State<SidebarScaffold> {
-  SidebarPanelState state = SidebarPanelState();
+  SidebarPanelState _state = SidebarPanelState();
+  RouteState? _previousRouteState;
 
   @override
   void initState() {
@@ -181,9 +185,9 @@ class _SidebarScaffoldState extends State<SidebarScaffold> {
 
   void _onControllerUpdate() {
     setState(() {
-      state = component.sidebarController?.state ??
+      _state = component.sidebarController?.state ??
           component.detailBarController?.state ??
-          state;
+          _state;
     });
   }
 
@@ -243,7 +247,7 @@ class _SidebarScaffoldState extends State<SidebarScaffold> {
         // The child of this container (the actual sidebar content)
         // should define its own background/styling if needed.
         // This container is primarily for width constraint.
-        child: component.sidebarBuilder!(context, state),
+        child: component.sidebarBuilder!(context, _state),
       );
     }
 
@@ -251,7 +255,7 @@ class _SidebarScaffoldState extends State<SidebarScaffold> {
     if (component.detailBarBuilder != null) {
       actualDetailBar = Container(
         constraints: BoxConstraints(maxWidth: effectiveDetailBarMaxWidth),
-        child: component.detailBarBuilder!(context, state),
+        child: component.detailBarBuilder!(context, _state),
       );
     }
 
@@ -351,36 +355,71 @@ class _SidebarScaffoldState extends State<SidebarScaffold> {
         // Assemble in-flow children based on direction
         final List<Component> finalInFlowChildren = [];
         if (component.direction == TextDirection.ltr) {
-          if (inFlowChildren.isNotEmpty)
+          if (inFlowChildren.isNotEmpty) {
             finalInFlowChildren.add(inFlowChildren.first); // Sidebar
+          }
           finalInFlowChildren.add(mainContent);
-          if (detailBarForInFlow != null)
+          if (detailBarForInFlow != null) {
             finalInFlowChildren.add(detailBarForInFlow);
+          }
         } else {
           // RTL
-          if (detailBarForInFlow != null)
+          if (detailBarForInFlow != null) {
             finalInFlowChildren.add(detailBarForInFlow);
+          }
           finalInFlowChildren.add(mainContent);
-          if (inFlowChildren.isNotEmpty)
+          if (inFlowChildren.isNotEmpty) {
             finalInFlowChildren.add(inFlowChildren.first); // Sidebar
+          }
         }
 
-        yield DomComponent(
-          tag: 'div',
-          styles: Styles(
-            width: 100.percent,
-            height: 100.vh,
-            backgroundColor: component.backgroundColor,
-            position: Position
-                .relative(), // Establishes stacking context for overlays
+        yield Container(
+          constraints: BoxConstraints(
+            minHeight: 100.percent,
+            minWidth: 100.percent,
           ),
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: finalInFlowChildren,
+          child: Router(routes: [
+            ShellRoute(
+              builder: (context, state, child) {
+                // This 'builder' acts as your route listener
+                if (_previousRouteState == null) {
+                  // Initial route
+                  print('Route changed: Initial route: ${state.location}');
+                } else if (_previousRouteState!.location != state.location) {
+                  // Route location has changed
+                  print(
+                      'Route changed: From ${_previousRouteState!.location} to ${state.location}');
+                  // You can check other properties of state as well, e.g., state.uri.queryParameters, etc.
+                  // For 'isChanging' (route transition started), this builder would be called.
+                  // For 'changed' (route transition finished), this builder would be called after the new route is fully resolved.
+                  // Jaspr's router typically re-renders the builder with the new state once the change is processed.
+                }
+
+                // Update the previous state for the next comparison
+                _previousRouteState = state;
+
+                return DomComponent(
+                  tag: 'div',
+                  styles: Styles(
+                    width: 100.percent,
+                    height: 100.vh,
+                    backgroundColor: component.backgroundColor,
+                    position: Position
+                        .relative(), // Establishes stacking context for overlays
+                  ),
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: finalInFlowChildren,
+                    ),
+                    ...overlayChildren,
+                  ],
+                );
+              },
+              routes:
+                  component.routes, // Use the routes passed to the component
             ),
-            ...overlayChildren,
-          ],
+          ]),
         );
       }
     }

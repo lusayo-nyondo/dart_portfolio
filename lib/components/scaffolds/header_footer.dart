@@ -33,6 +33,7 @@ class _HeaderFooterScaffoldState extends State<HeaderFooterScaffold> {
     yield Container(
       constraints: BoxConstraints(
         minHeight: 100.percent,
+        minWidth: 100.percent,
       ),
       child: Router(routes: [
         ShellRoute(
