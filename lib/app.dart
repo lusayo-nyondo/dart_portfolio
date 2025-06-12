@@ -20,23 +20,30 @@ class App extends StatelessComponent {
       width: 100.vw,
       child: SidebarScaffold(
           child: Center(child: Text("Hello, World!")),
-          sidebarBuilder: (context, routeState, sidebarState) =>
-              Column(spacing: 20, children: [
-                NavLink(
-                    path: '/',
-                    child: TextComponent('Home'),
-                    isActive: routeState.fullpath == '/'),
-                NavLink(
-                    path: '/about',
-                    child: TextComponent('About'),
-                    isActive: routeState.fullpath == '/about'),
-              ]),
+          sidebarBuilder: (context, routeState, sidebarState) => Container(
+                padding: Padding.all(8.px),
+                height: 100.percent,
+                decoration: BoxDecoration(
+                  border: Border.only(
+                      right: BorderSide(width: 1.px, color: Colors.black)),
+                ),
+                child: Column(spacing: 8, children: [
+                  NavLink(
+                      path: '/',
+                      child: TextComponent('Home'),
+                      isActive: routeState.fullpath == '/'),
+                  NavLink(
+                      path: '/about',
+                      child: TextComponent('About'),
+                      isActive: routeState.fullpath == '/about'),
+                ]),
+              ),
           routes: <RouteBase>[
             Route(path: '/', name: 'home', builder: (context, state) => Home()),
             Route(
                 path: '/about',
                 name: 'about',
-                builder: (context, state) => About()),
+                builder: (context, state) => Center(child: About())),
           ]),
     );
   }

@@ -58,7 +58,6 @@ class Container extends StatelessComponent {
     Unit? _minHeight;
     Unit? _maxHeight;
     Color? _backgroundColor;
-    Border? _border;
     BorderRadius? _borderRadius;
     BoxShadow? _boxShadow;
     Spacing? _padding = padding;
@@ -135,7 +134,7 @@ class Container extends StatelessComponent {
         minHeight: _minHeight,
         maxHeight: _maxHeight,
         backgroundColor: _backgroundColor,
-        border: _border,
+        border: decoration?.border,
         radius: _borderRadius,
         shadow: _boxShadow,
         padding: _padding,

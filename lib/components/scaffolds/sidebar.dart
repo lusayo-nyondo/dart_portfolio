@@ -263,6 +263,7 @@ class _SidebarScaffoldState extends State<SidebarScaffold> {
                       ? 100.vh
                       : null,
                   child: div(
+                    classes: 'h-full w-full',
                     [sidebarContent],
                     styles: (sidebarPanelState.mode == SidebarMode.overlay)
                         ? Styles(
@@ -306,7 +307,9 @@ class _SidebarScaffoldState extends State<SidebarScaffold> {
                       ? 100.vh
                       : null,
                   // No specific styles for in-flow in this container
-                  child: div([detailBarContent],
+                  child: div(
+                      classes: 'h-full w-full',
+                      [detailBarContent],
                       styles: (detailBarPanelState.mode == SidebarMode.overlay)
                           ? Styles(
                               position: Position.absolute(

@@ -95,7 +95,7 @@ class NavLink extends StatelessComponent {
     String? combinedClasses;
     // Base Tailwind classes for text and background color if not overridden
     final defaultTailwindClasses =
-        'text-gray-800 hover:bg-gray-100'; // Default text color and hover state
+        'text-gray-800 hover:bg-gray-100 inline-block w-full'; // Default text color and hover state
     final activeTailwindClasses =
         'text-blue-700 bg-blue-400 font-bold'; // Active text color and background
     final inactiveTailwindClasses = 'text-gray-600'; // Inactive text color
