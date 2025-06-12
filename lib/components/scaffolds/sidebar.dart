@@ -1,27 +1,13 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
-// Assuming '../components.dart' exports:
-// - Container (from lib/components/containers/container.dart)
-// - Row (from lib/components/containers/flexbox/row.dart)
-// - BoxConstraints (from lib/components/containers/box_model/box_constraints.dart)
-// Expanded, Unit, Color, TextDirection are from 'package:jaspr/jaspr.dart'.
-// Expanded, Unit, Color, TextDirection are from 'package:jaspr/jaspr.dart'.
-import '../components.dart';
+import '../components.dart'; // Make sure this exports everything needed
 
 /// Defines the display mode of a sidebar panel.
 enum SidebarMode {
-  /// Takes up space in the layout, always visible if `isVisible` is true.
   expanded,
-
-  /// Floats on top of the main content.
   overlay,
-
-  /// Can be shown or hidden, takes up space in the layout when visible.
   collapsible,
-
-  /// Behavior might change based on screen size (typically managed by the builder).
-  /// In terms of layout contribution, it's treated like 'expanded' or 'collapsible'.
   responsive,
 }
 
@@ -104,8 +90,6 @@ class SidebarPanelController {
   }
 
   void addListener(void Function() listener) {
-    // For simplicity, this controller supports one listener,
-    // suitable for the scaffold's internal use.
     _listener = listener;
   }
 
@@ -121,18 +105,18 @@ class SidebarPanelController {
 }
 
 class SidebarScaffold extends StatefulComponent {
-  final Component child; // Main content area
-  final Component Function(
-      BuildContext context, SidebarPanelState sidebarState)? sidebarBuilder;
-  final Component Function(
-      BuildContext context, SidebarPanelState detailBarState)? detailBarBuilder;
+  final Component child; // Main content area (default for the scaffold layout)
+  final Component Function(BuildContext context, RouteState state,
+      SidebarPanelState sidebarState)? sidebarBuilder;
+  final Component Function(BuildContext context, RouteState state,
+      SidebarPanelState detailBarState)? detailBarBuilder;
   final TextDirection direction; // ltr or rtl
   final Unit? sidebarMaxWidth;
   final Unit? detailBarMaxWidth;
   final Color? backgroundColor; // Optional background for the whole scaffold
   final SidebarPanelController? sidebarController;
   final SidebarPanelController? detailBarController;
-  final List<RouteBase> routes;
+  final List<RouteBase> routes; // Router routes
 
   const SidebarScaffold({
     required this.child,
@@ -153,275 +137,258 @@ class SidebarScaffold extends StatefulComponent {
 }
 
 class _SidebarScaffoldState extends State<SidebarScaffold> {
-  SidebarPanelState _state = SidebarPanelState();
-  RouteState? _previousRouteState;
+  // Store internal state for each sidebar
+  SidebarPanelState _sidebarInternalState = const SidebarPanelState();
+  SidebarPanelState _detailBarInternalState = const SidebarPanelState();
+  RouteState? _previousRouteState; // To track route changes
 
   @override
   void initState() {
     super.initState();
-    component.sidebarController?.addListener(_onControllerUpdate);
-    component.detailBarController?.addListener(_onControllerUpdate);
+    // Initialize internal states from controllers, or use defaults
+    _sidebarInternalState =
+        component.sidebarController?.state ?? _sidebarInternalState;
+    _detailBarInternalState =
+        component.detailBarController?.state ?? _detailBarInternalState;
+
+    component.sidebarController?.addListener(_onSidebarControllerUpdate);
+    component.detailBarController?.addListener(_onDetailBarControllerUpdate);
   }
 
   @override
   void didUpdateComponent(SidebarScaffold oldWidget) {
     super.didUpdateComponent(oldWidget);
+    // Re-register listeners if controllers change
     if (oldWidget.sidebarController != component.sidebarController) {
-      oldWidget.sidebarController?.removeListener(_onControllerUpdate);
-      component.sidebarController?.addListener(_onControllerUpdate);
+      oldWidget.sidebarController?.removeListener(_onSidebarControllerUpdate);
+      component.sidebarController?.addListener(_onSidebarControllerUpdate);
     }
     if (oldWidget.detailBarController != component.detailBarController) {
-      oldWidget.detailBarController?.removeListener(_onControllerUpdate);
-      component.detailBarController?.addListener(_onControllerUpdate);
+      oldWidget.detailBarController
+          ?.removeListener(_onDetailBarControllerUpdate);
+      component.detailBarController?.addListener(_onDetailBarControllerUpdate);
     }
+    // Update internal states if new controllers or their initial states are different
+    _sidebarInternalState =
+        component.sidebarController?.state ?? _sidebarInternalState;
+    _detailBarInternalState =
+        component.detailBarController?.state ?? _detailBarInternalState;
   }
 
   @override
   void dispose() {
-    component.sidebarController?.removeListener(_onControllerUpdate);
-    component.detailBarController?.removeListener(_onControllerUpdate);
+    component.sidebarController?.removeListener(_onSidebarControllerUpdate);
+    component.detailBarController?.removeListener(_onDetailBarControllerUpdate);
     super.dispose();
   }
 
-  void _onControllerUpdate() {
+  void _onSidebarControllerUpdate() {
     setState(() {
-      _state = component.sidebarController?.state ??
-          component.detailBarController?.state ??
-          _state;
+      _sidebarInternalState = component.sidebarController!.state;
     });
   }
 
-  SidebarPanelState get _currentSidebarState {
-    if (component.sidebarController != null) {
-      var state = component.sidebarController!.state;
-      // Ensure panel is not visible if no builder is provided
-      return component.sidebarBuilder == null
-          ? state.copyWith(isVisible: false)
-          : state;
-    }
-    // No controller
-    return component.sidebarBuilder != null
-        ? const SidebarPanelState(
-            isVisible: true,
-            mode: SidebarMode.expanded) // Default for present builder
-        : const SidebarPanelState(
-            isVisible: false,
-            mode: SidebarMode.expanded); // Default for absent builder
+  void _onDetailBarControllerUpdate() {
+    setState(() {
+      _detailBarInternalState = component.detailBarController!.state;
+    });
   }
 
-  SidebarPanelState get _currentDetailBarState {
-    if (component.detailBarController != null) {
-      var state = component.detailBarController!.state;
-      return component.detailBarBuilder == null
-          ? state.copyWith(isVisible: false)
-          : state;
-    }
-    return component.detailBarBuilder != null
-        ? const SidebarPanelState(isVisible: true, mode: SidebarMode.expanded)
-        : const SidebarPanelState(isVisible: false, mode: SidebarMode.expanded);
+  // Getters for the *effective* state of each sidebar, considering builder presence
+  SidebarPanelState get _effectiveSidebarState {
+    final stateFromController =
+        component.sidebarController?.state ?? _sidebarInternalState;
+    return component.sidebarBuilder == null
+        ? stateFromController.copyWith(isVisible: false)
+        : stateFromController;
+  }
+
+  SidebarPanelState get _effectiveDetailBarState {
+    final stateFromController =
+        component.detailBarController?.state ?? _detailBarInternalState;
+    return component.detailBarBuilder == null
+        ? stateFromController.copyWith(isVisible: false)
+        : stateFromController;
   }
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    final List<Component> rowChildren = [];
-    final sidebarPanelState = _currentSidebarState;
-    final detailBarPanelState = _currentDetailBarState;
+    final sidebarPanelState = _effectiveSidebarState;
+    final detailBarPanelState = _effectiveDetailBarState;
 
-    final bool showSidebar =
-        component.sidebarBuilder != null && sidebarPanelState.isVisible;
-    final bool showDetailBar =
-        component.detailBarBuilder != null && detailBarPanelState.isVisible;
+    final bool showSidebar = sidebarPanelState.isVisible;
+    final bool showDetailBar = detailBarPanelState.isVisible;
 
-    const Unit defaultSidebarMaxWidth = Unit.pixels(240);
+    const Unit defaultSidebarMaxWidth = Unit.pixels(240); // Consistent name
+    const Unit defaultDetailBarMaxWidth = Unit.pixels(240); // Consistent name
 
     final Unit effectiveSidebarMaxWidth =
         component.sidebarMaxWidth ?? defaultSidebarMaxWidth;
-    component.sidebarMaxWidth ?? defaultSidebarMaxWidth;
     final Unit effectiveDetailBarMaxWidth =
-        component.detailBarMaxWidth ?? defaultSidebarMaxWidth;
+        component.detailBarMaxWidth ?? defaultDetailBarMaxWidth;
 
-    Component? actualSidebar;
-    if (component.sidebarBuilder != null) {
-      actualSidebar = Container(
-        constraints: BoxConstraints(maxWidth: effectiveSidebarMaxWidth),
-        // The child of this container (the actual sidebar content)
-        // should define its own background/styling if needed.
-        // This container is primarily for width constraint.
-        child: component.sidebarBuilder!(context, _state),
-      );
-    }
+    yield Container(
+      constraints: BoxConstraints(
+        minHeight: 100.percent,
+        minWidth: 100.percent,
+      ),
+      child: Router(
+        routes: [
+          ShellRoute(
+            builder: (context, state, child) {
+              // *** ROUTE LISTENER LOGIC ***
+              if (_previousRouteState == null) {
+                print('Route changed: Initial route: ${state.location}');
+              } else if (_previousRouteState!.location != state.location) {
+                print(
+                    'Route changed: From ${_previousRouteState!.location} to ${state.location}');
+              }
+              _previousRouteState =
+                  state; // Update the previous state for the next comparison
 
-    Component? actualDetailBar;
-    if (component.detailBarBuilder != null) {
-      actualDetailBar = Container(
-        constraints: BoxConstraints(maxWidth: effectiveDetailBarMaxWidth),
-        child: component.detailBarBuilder!(context, _state),
-      );
-    }
+              print("Current route in sidebar scaffold shell: ${state.path}");
+              // *** END ROUTE LISTENER LOGIC ***
 
-    // The main content should expand to fill available space.
-    final mainContent = Expanded(
-      child: component.child,
-    );
+              final List<Component> inFlowChildren = [];
+              final List<Component> overlayChildren = [];
 
-    if (component.direction == TextDirection.ltr) {
-      if (actualSidebar != null) {
-        rowChildren.add(actualSidebar);
-      }
-      rowChildren.add(mainContent); // Main content is always present
-      if (actualDetailBar != null) {
-        rowChildren.add(actualDetailBar);
-        component.detailBarMaxWidth ?? defaultSidebarMaxWidth;
-
-        final List<Component> inFlowChildren = [];
-        final List<Component> overlayChildren = [];
-
-        // Build Sidebar
-        if (showSidebar) {
-          final sidebarContent =
-              component.sidebarBuilder!(context, sidebarPanelState);
-          final sidebarContainer = Container(
-            constraints: BoxConstraints(maxWidth: effectiveSidebarMaxWidth),
-            height:
-                (sidebarPanelState.mode == SidebarMode.overlay) ? 100.vh : null,
-            child: sidebarContent,
-          );
-
-          if (sidebarPanelState.mode == SidebarMode.overlay) {
-            overlayChildren.add(
-              DomComponent(
-                tag: 'div',
-                styles: Styles(
-                  position: Position.absolute(
-                    top: 0.px,
-                    bottom: 0.px,
-                    left:
-                        component.direction == TextDirection.ltr ? 0.px : null,
-                    right:
-                        component.direction == TextDirection.rtl ? 0.px : null,
+              // 1. Build and conditionally add Sidebar
+              if (showSidebar) {
+                final sidebarContent = component.sidebarBuilder!(
+                    context, state, sidebarPanelState);
+                final sidebarContainer = Container(
+                  constraints:
+                      BoxConstraints(maxWidth: effectiveSidebarMaxWidth),
+                  height: (sidebarPanelState.mode == SidebarMode.overlay)
+                      ? 100.vh
+                      : null,
+                  child: div(
+                    [sidebarContent],
+                    styles: (sidebarPanelState.mode == SidebarMode.overlay)
+                        ? Styles(
+                            position: Position.absolute(
+                              top: 0.px,
+                              bottom: 0.px,
+                              left: component.direction == TextDirection.ltr
+                                  ? 0.px
+                                  : null,
+                              right: component.direction == TextDirection.rtl
+                                  ? 0.px
+                                  : null,
+                            ),
+                            zIndex: ZIndex(10), // Ensure overlay is on top
+                          )
+                        : null, // No specific styles for in-flow in this container,
                   ),
-
-                  zIndex: ZIndex(10), // Ensure overlay is on top
-                ),
-                child: sidebarContainer,
-              ),
-            );
-          } else {
-            // expanded, collapsible (when visible), responsive
-            inFlowChildren.add(sidebarContainer);
-          }
-        }
-
-        // Main Content - always present in the in-flow list
-        final mainContent = Expanded(child: component.child);
-
-        // Build Detail Bar
-        Component? detailBarForInFlow;
-        if (showDetailBar) {
-          final detailBarContent =
-              component.detailBarBuilder!(context, detailBarPanelState);
-          final detailBarContainer = Container(
-            constraints: BoxConstraints(maxWidth: effectiveDetailBarMaxWidth),
-            height: (detailBarPanelState.mode == SidebarMode.overlay)
-                ? 100.vh
-                : null,
-            child: detailBarContent,
-          );
-
-          if (detailBarPanelState.mode == SidebarMode.overlay) {
-            overlayChildren.add(
-              DomComponent(
-                tag: 'div',
-                styles: Styles(
-                  position: Position.absolute(
-                    top: 0.px,
-                    bottom: 0.px,
-                    right:
-                        component.direction == TextDirection.ltr ? 0.px : null,
-                    left:
-                        component.direction == TextDirection.rtl ? 0.px : null,
-                  ),
-                  zIndex: ZIndex(10),
-                ),
-                child: detailBarContainer,
-              ),
-            );
-          } else {
-            // expanded, collapsible (when visible), responsive
-            detailBarForInFlow = detailBarContainer;
-          }
-        }
-
-        // Assemble in-flow children based on direction
-        final List<Component> finalInFlowChildren = [];
-        if (component.direction == TextDirection.ltr) {
-          if (inFlowChildren.isNotEmpty) {
-            finalInFlowChildren.add(inFlowChildren.first); // Sidebar
-          }
-          finalInFlowChildren.add(mainContent);
-          if (detailBarForInFlow != null) {
-            finalInFlowChildren.add(detailBarForInFlow);
-          }
-        } else {
-          // RTL
-          if (detailBarForInFlow != null) {
-            finalInFlowChildren.add(detailBarForInFlow);
-          }
-          finalInFlowChildren.add(mainContent);
-          if (inFlowChildren.isNotEmpty) {
-            finalInFlowChildren.add(inFlowChildren.first); // Sidebar
-          }
-        }
-
-        yield Container(
-          constraints: BoxConstraints(
-            minHeight: 100.percent,
-            minWidth: 100.percent,
-          ),
-          child: Router(routes: [
-            ShellRoute(
-              builder: (context, state, child) {
-                // This 'builder' acts as your route listener
-                if (_previousRouteState == null) {
-                  // Initial route
-                  print('Route changed: Initial route: ${state.location}');
-                } else if (_previousRouteState!.location != state.location) {
-                  // Route location has changed
-                  print(
-                      'Route changed: From ${_previousRouteState!.location} to ${state.location}');
-                  // You can check other properties of state as well, e.g., state.uri.queryParameters, etc.
-                  // For 'isChanging' (route transition started), this builder would be called.
-                  // For 'changed' (route transition finished), this builder would be called after the new route is fully resolved.
-                  // Jaspr's router typically re-renders the builder with the new state once the change is processed.
-                }
-
-                // Update the previous state for the next comparison
-                _previousRouteState = state;
-
-                return DomComponent(
-                  tag: 'div',
-                  styles: Styles(
-                    width: 100.percent,
-                    height: 100.vh,
-                    backgroundColor: component.backgroundColor,
-                    position: Position
-                        .relative(), // Establishes stacking context for overlays
-                  ),
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: finalInFlowChildren,
-                    ),
-                    ...overlayChildren,
-                  ],
                 );
-              },
-              routes:
-                  component.routes, // Use the routes passed to the component
-            ),
-          ]),
-        );
-      }
-    }
+
+                if (sidebarPanelState.mode == SidebarMode.overlay) {
+                  overlayChildren.add(sidebarContainer);
+                } else {
+                  inFlowChildren.add(sidebarContainer);
+                }
+              }
+
+              // 2. Main Content (child from ShellRoute)
+              final mainContent = Expanded(
+                child:
+                    child, // <--- CORRECTED: This `child` is the routed content
+              );
+
+              // 3. Build and conditionally add Detail Bar
+              if (showDetailBar) {
+                final detailBarContent = component.detailBarBuilder!(
+                    context, state, detailBarPanelState);
+                final detailBarContainer = Container(
+                  constraints:
+                      BoxConstraints(maxWidth: effectiveDetailBarMaxWidth),
+                  height: (detailBarPanelState.mode == SidebarMode.overlay)
+                      ? 100.vh
+                      : null,
+                  // No specific styles for in-flow in this container
+                  child: div([detailBarContent],
+                      styles: (detailBarPanelState.mode == SidebarMode.overlay)
+                          ? Styles(
+                              position: Position.absolute(
+                                top: 0.px,
+                                bottom: 0.px,
+                                right: component.direction == TextDirection.ltr
+                                    ? 0.px
+                                    : null,
+                                left: component.direction == TextDirection.rtl
+                                    ? 0.px
+                                    : null,
+                              ),
+                              zIndex: ZIndex(10),
+                            )
+                          : null),
+                );
+
+                if (detailBarPanelState.mode == SidebarMode.overlay) {
+                  overlayChildren.add(detailBarContainer);
+                } else {
+                  inFlowChildren.add(detailBarContainer);
+                }
+              }
+
+              // 4. Assemble in-flow children based on direction
+              // Clear and re-add for clarity
+              final List<Component> finalInFlowChildren = [];
+
+              if (component.direction == TextDirection.ltr) {
+                if (inFlowChildren.isNotEmpty &&
+                    sidebarPanelState.mode != SidebarMode.overlay) {
+                  finalInFlowChildren.add(
+                      inFlowChildren[0]); // Assumes sidebar is first if present
+                }
+                finalInFlowChildren.add(mainContent);
+                if (inFlowChildren.length > 1 &&
+                    detailBarPanelState.mode != SidebarMode.overlay) {
+                  finalInFlowChildren.add(inFlowChildren[
+                      1]); // Assumes detailbar is second if present
+                }
+              } else {
+                // RTL
+                if (inFlowChildren.length > 1 &&
+                    detailBarPanelState.mode != SidebarMode.overlay) {
+                  finalInFlowChildren
+                      .add(inFlowChildren[1]); // Detailbar comes first in RTL
+                }
+                finalInFlowChildren.add(mainContent);
+                if (inFlowChildren.isNotEmpty &&
+                    sidebarPanelState.mode != SidebarMode.overlay) {
+                  finalInFlowChildren
+                      .add(inFlowChildren[0]); // Sidebar comes last in RTL
+                }
+              }
+
+              return DomComponent(
+                tag: 'div',
+                styles: Styles(
+                  width: 100.percent,
+                  height: 100.vh,
+                  backgroundColor: component.backgroundColor,
+                  position: Position
+                      .relative(), // Establishes stacking context for overlays
+                  display:
+                      Display.flex, // Ensure the children are laid out by Row
+                  flexDirection: FlexDirection.row, // Matches Row's behavior
+                ),
+                children: [
+                  Row(
+                    // This Row now acts as the primary layout for in-flow elements
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: finalInFlowChildren,
+                  ),
+                  // Overlays are absolutely positioned on top of the Row
+                  ...overlayChildren,
+                ],
+              );
+            },
+            routes: component.routes, // Use the routes passed to the component
+          ),
+        ],
+      ),
+    );
   }
 }

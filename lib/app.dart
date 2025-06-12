@@ -16,6 +16,34 @@ class App extends StatelessComponent {
   @override
   Iterable<Component> build(BuildContext context) sync* {
     yield Container(
+      height: 100.vh,
+      width: 100.vw,
+      child: SidebarScaffold(
+          child: Center(child: Text("Hello, World!")),
+          sidebarBuilder: (context, routeState, sidebarState) =>
+              Column(spacing: 20, children: [
+                NavLink(
+                    path: '/',
+                    child: TextComponent('Home'),
+                    isActive: routeState.fullpath == '/'),
+                NavLink(
+                    path: '/about',
+                    child: TextComponent('About'),
+                    isActive: routeState.fullpath == '/about'),
+              ]),
+          routes: <RouteBase>[
+            Route(path: '/', name: 'home', builder: (context, state) => Home()),
+            Route(
+                path: '/about',
+                name: 'about',
+                builder: (context, state) => About()),
+          ]),
+    );
+  }
+  /*
+  @override
+  Iterable<Component> build(BuildContext context) sync* {
+    yield Container(
         height: 100.vh,
         child: HeaderFooterScaffold(
             headerBuilder: (context, state) {
@@ -55,5 +83,5 @@ class App extends StatelessComponent {
                 builder: (context, state) => About(),
               ),
             ]));
-  }
+  }*/
 }
