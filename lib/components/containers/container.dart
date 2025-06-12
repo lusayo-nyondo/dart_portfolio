@@ -84,16 +84,6 @@ class Container extends StatelessComponent {
       if (decoration!.color != null) {
         _backgroundColor = decoration!.color!;
       }
-      if (decoration!.border != null &&
-          decoration!.border!.style != BorderStyle.none) {
-        _border = Border(
-          color: decoration!.border!.color,
-          width: decoration!.border!.width,
-          style: decoration!.border!.style == BorderStyle.solid
-              ? BorderStyle.solid
-              : BorderStyle.none,
-        );
-      }
       _borderRadius = decoration?.borderRadius;
 
       if (decoration!.boxShadow != null) {
