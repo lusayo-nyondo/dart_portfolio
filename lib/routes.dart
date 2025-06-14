@@ -21,6 +21,13 @@ getRoutes(BuildContext context) => <RouteBase>[
         ],
         headerBuilder: (context, state) => Container(
             padding: Padding.all(8.px),
+            decoration: BoxDecoration(
+                boxShadow: BoxShadow(
+              offsetX: Unit.zero,
+              offsetY: 0.5.px,
+              blur: 2.px,
+              spread: 1.px,
+            )),
             child: Row(spacing: 4.px, children: <Component>[
               NavLink(
                 path: '/',
