@@ -35,7 +35,7 @@ abstract class Flexbox extends StatelessComponent {
   final CrossAxisAlignment crossAxisAlignment;
   final MainAxisSize mainAxisSize;
   final String? customClasses;
-  final double? spacing; // For gap utility
+  final Unit? spacing; // For gap utility
 
   // Protected constructor to be used by subclasses
   const Flexbox({
@@ -131,12 +131,8 @@ abstract class Flexbox extends StatelessComponent {
       styles: Styles(
           gap: spacing != null
               ? Gap(
-                  row: directionClass == 'flex-col'
-                      ? Unit.pixels(spacing!)
-                      : null,
-                  column: directionClass == 'flex-row'
-                      ? Unit.pixels(spacing!)
-                      : null)
+                  row: directionClass == 'flex-col' ? spacing : null,
+                  column: directionClass == 'flex-row' ? spacing : null)
               : null),
       List.from(children),
     );

@@ -32,7 +32,7 @@ class App extends StatelessComponent {
                   border: Border.only(
                       right: BorderSide(width: 1.px, color: Colors.black)),
                 ),
-                child: Column(spacing: 8, children: [
+                child: Column(spacing: 8.px, children: [
                   SidebarLink(
                       path: '/', // Use NavLink for Jaspr Router v0.4+
                       child: TextComponent('Home'),
@@ -58,18 +58,21 @@ class App extends StatelessComponent {
                     name: 'about',
                     builder: (context, state) => Center(child: About())),
                 HeaderFooterShell(
-                  headerBuilder: (context, routeState) => Row(
-                    children: [
-                      NavLink(
-                          isActive: routeState.fullpath == '/nested',
-                          path: '/nested',
-                          child: TextComponent('Nested Home')),
-                      NavLink(
-                          isActive: routeState.fullpath == '/nested',
-                          path: '/nested/about',
-                          child: TextComponent('Nested About')),
-                    ],
-                  ),
+                  headerBuilder: (context, routeState) => Container(
+                      padding: Padding.all(16.px),
+                      child: Row(
+                        spacing: 4.px,
+                        children: [
+                          NavLink(
+                              isActive: routeState.fullpath == '/nested',
+                              path: '/nested',
+                              child: TextComponent('Nested Home')),
+                          NavLink(
+                              isActive: routeState.fullpath == '/nested/about',
+                              path: '/nested/about',
+                              child: TextComponent('Nested About')),
+                        ],
+                      )),
                   routes: <RouteBase>[
                     Route(
                       path: '/nested',
