@@ -26,8 +26,16 @@ class HomeState extends State<Home> {
 
   @override
   build(BuildContext context) sync* {
-    yield Center(
-      child: TextComponent('Home page.'),
+    yield Container(
+      alignment: Alignment.center,
+      height: 100.percent,
+      width: 100.percent,
+      padding: Padding.all(16.px),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(16.px)),
+        color: Colors.green,
+      ),
+      child: TextComponent("Hey There. This is Lusayo Nyondo."),
     );
   }
 }

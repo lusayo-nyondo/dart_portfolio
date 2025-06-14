@@ -13,6 +13,7 @@ class App extends StatelessComponent {
     yield Container(
         height: 100.vh,
         width: 100.vw,
+        classList: 'bg-gray-100',
         child: Router(
           routes: getRoutes(context),
         ));
