@@ -11,11 +11,12 @@ class App extends StatelessComponent {
   @override
   Iterable<Component> build(BuildContext context) sync* {
     yield Container(
-        height: 100.vh,
-        width: 100.vw,
-        classList: 'bg-gray-100',
-        child: Router(
-          routes: getRoutes(context),
-        ));
+      height: 100.vh,
+      width: 100.vw,
+      classList: 'bg-gray-100',
+      child: Container(
+          classList: 'p-2 max-w-screen-lg mx-auto',
+          child: Router(routes: getRoutes(context))),
+    );
   }
 }

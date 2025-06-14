@@ -17,7 +17,7 @@ class Navbar extends StatelessComponent {
     yield Container(
       element: 'nav',
       classList:
-          'block w-full max-w-screen-lg px-4 py-2 mx-auto bg-white shadow-md rounded-md lg:px-8 lg:py-3 mt-10',
+          'block w-full px-4 py-2 mx-auto bg-white shadow-md rounded-md lg:px-8 lg:py-3',
       child: div(
           classes:
               'container flex flex-wrap items-center justify-between mx-auto text-slate-800',

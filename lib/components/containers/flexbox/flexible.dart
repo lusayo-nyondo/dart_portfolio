@@ -20,7 +20,7 @@ class Flexible extends StatelessComponent {
 
   @override
   build(BuildContext context) sync* {
-    final List<String> tailwindClasses = [];
+    final List<String> tailwindClasses = ['w-full', 'h-full'];
 
     // Apply flex properties based on flex factor and fit
     if (flex == 0) {
@@ -39,7 +39,6 @@ class Flexible extends StatelessComponent {
         if (flex == 1) {
           tailwindClasses.add('flex-1'); // flex: 1 1 0%
         } else {
-          tailwindClasses.add('grow-[$flex]'); // flex-grow: <flex>;
           tailwindClasses.add('shrink-0'); // Explicitly not shrinking
           // To ensure it takes minimum initial size before growing,
           // we should also add `basis-0` or `flex-basis: 0;` via inline style if needed.
@@ -66,7 +65,10 @@ class Flexible extends StatelessComponent {
     yield div(
       classes: tailwindClasses.join(' '),
       styles: Styles(
-        flex: Flex(basis: Unit.zero),
+        flex: Flex(
+          basis: Unit.zero,
+          grow: flex.toDouble(),
+        ),
       ),
       [child],
     );

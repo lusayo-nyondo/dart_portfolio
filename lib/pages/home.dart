@@ -31,10 +31,8 @@ class HomeState extends State<Home> {
       height: 100.percent,
       width: 100.percent,
       padding: Padding.all(16.px),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(16.px)),
-        color: Colors.green,
-      ),
+      margin: Margin.symmetric(vertical: 4.px),
+      classList: 'bg-green-700 text-white rounded-lg',
       child: TextComponent("Hey There. This is Lusayo Nyondo."),
     );
   }
