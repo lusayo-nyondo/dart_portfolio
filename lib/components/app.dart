@@ -5,6 +5,7 @@ import 'package:universal_web/web.dart';
 import 'package:universal_web/js_interop.dart';
 
 import 'components.dart';
+import 'router.dart';
 
 /// The root component for a Jaspr application that provides theming and routing capabilities.
 ///
@@ -276,9 +277,10 @@ class _JasprAppState extends State<JasprApp> {
     );
 
     // Determine the child content (Router or home)
-    Component appContent = Router(
-      routes: List.from(component.routes),
-    );
+
+    Component appContent = JasprAppRouter(
+      defaultRoutes: List.from(component.routes),
+    )..registerRoutes(component.routes);
 
     // If 'home' is provided and no specific route exists for '/', add it to routes
     // This part is a bit tricky with jaspr_router. It's usually better to just

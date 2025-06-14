@@ -26,61 +26,73 @@ class HeaderFooterScaffold extends StatefulComponent {
 class _HeaderFooterScaffoldState extends State<HeaderFooterScaffold> {
   // Store the previous RouteState to compare
   RouteState? _previousRouteState;
+  JasprAppRouter router = JasprAppRouter(defaultRoutes: []);
+
+  @override
+  initState() {
+    super.initState();
+    registerRoutes(component.routes);
+  }
 
   // The actual "listener" logic will be inside the builder
+  ShellRoute _buildShellRoute() {
+    return ShellRoute(
+      builder: (context, state, child) {
+        // This 'builder' acts as your route listener
+        if (_previousRouteState == null) {
+          // Initial route
+          print('Route changed: Initial route: ${state.location}');
+        } else if (_previousRouteState!.location != state.location) {
+          // Route location has changed
+          print(
+              'Route changed: From ${_previousRouteState!.location} to ${state.location}');
+          // You can check other properties of state as well, e.g., state.uri.queryParameters, etc.
+          // For 'isChanging' (route transition started), this builder would be called.
+          // For 'changed' (route transition finished), this builder would be called after the new route is fully resolved.
+          // Jaspr's router typically re-renders the builder with the new state once the change is processed.
+        }
+
+        // Update the previous state for the next comparison
+        _previousRouteState = state;
+
+        return Column(children: [
+          if (component.headerBuilder != null)
+            Container(
+              height: 60.px,
+              width: 100.percent,
+              alignment: Alignment.centerLeft,
+              child: header(
+                classes: 'w-full h-full',
+                [
+                  component.headerBuilder!(context, state),
+                ],
+              ),
+            ),
+
+          Expanded(
+            child: child,
+          ),
+          // Use the footerBuilder if provided, otherwise default Footer
+          component.footerBuilder != null
+              ? component.footerBuilder!(context, state)
+              : Footer(),
+        ]);
+      },
+      routes: component.routes, // Use the routes passed to the component
+    );
+  }
+
   @override
   Iterable<Component> build(BuildContext context) sync* {
+    ShellRoute shellRoute = _buildShellRoute();
+    router.registerRoute(shellRoute);
+
     yield Container(
       constraints: BoxConstraints(
         minHeight: 100.percent,
         minWidth: 100.percent,
       ),
-      child: Router(routes: [
-        ShellRoute(
-          builder: (context, state, child) {
-            // This 'builder' acts as your route listener
-            if (_previousRouteState == null) {
-              // Initial route
-              print('Route changed: Initial route: ${state.location}');
-            } else if (_previousRouteState!.location != state.location) {
-              // Route location has changed
-              print(
-                  'Route changed: From ${_previousRouteState!.location} to ${state.location}');
-              // You can check other properties of state as well, e.g., state.uri.queryParameters, etc.
-              // For 'isChanging' (route transition started), this builder would be called.
-              // For 'changed' (route transition finished), this builder would be called after the new route is fully resolved.
-              // Jaspr's router typically re-renders the builder with the new state once the change is processed.
-            }
-
-            // Update the previous state for the next comparison
-            _previousRouteState = state;
-
-            return Column(children: [
-              if (component.headerBuilder != null)
-                Container(
-                  height: 60.px,
-                  width: 100.percent,
-                  alignment: Alignment.centerLeft,
-                  child: header(
-                    classes: 'w-full h-full',
-                    [
-                      component.headerBuilder!(context, state),
-                    ],
-                  ),
-                ),
-
-              Expanded(
-                child: child,
-              ),
-              // Use the footerBuilder if provided, otherwise default Footer
-              component.footerBuilder != null
-                  ? component.footerBuilder!(context, state)
-                  : Footer(),
-            ]);
-          },
-          routes: component.routes, // Use the routes passed to the component
-        ),
-      ]),
+      child: JasprAppRouter(defaultRoutes: []),
     );
   }
 }

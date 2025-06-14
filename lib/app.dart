@@ -28,15 +28,15 @@ class App extends StatelessComponent {
                       right: BorderSide(width: 1.px, color: Colors.black)),
                 ),
                 child: Column(spacing: 8, children: [
-                  PanelLink(
+                  SidebarLink(
                       path: '/',
                       child: TextComponent('Home'),
                       isActive: routeState.fullpath == '/'),
-                  PanelLink(
+                  SidebarLink(
                       path: '/about',
                       child: TextComponent('About'),
                       isActive: routeState.fullpath == '/about'),
-                  PanelLink(
+                  SidebarLink(
                     path: '/nested',
                     child: TextComponent('Nested Scaffold'),
                     isActive: routeState.fullpath == '/nested',

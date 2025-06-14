@@ -136,7 +136,7 @@ class NavLink extends StatelessComponent {
 
 /// A component that acts as a navigation panel link, automatically applying
 /// styles and/or classes based on its active state.
-class PanelLink extends StatelessComponent {
+class SidebarLink extends StatelessComponent {
   /// The path the link navigates to. This should match a route defined in Jaspr Router.
   final String path;
 
@@ -169,7 +169,7 @@ class PanelLink extends StatelessComponent {
   /// active/inactive styles.
   final Styles? styles;
 
-  const PanelLink({
+  const SidebarLink({
     required this.path,
     required this.child,
     this.isActive = false, // Now an explicit parameter

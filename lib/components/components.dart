@@ -5,5 +5,6 @@ export 'effects/effects.dart';
 export 'extensions/extensions.dart';
 export 'scaffolds/scaffolds.dart';
 export 'interactions/interactions.dart';
+export 'router.dart';
 export 'theme/theme.dart';
 export 'themed/themed.dart';
