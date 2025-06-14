@@ -25,8 +25,9 @@ getRoutes(BuildContext context) => <RouteBase>[
                 boxShadow: BoxShadow(
               offsetX: Unit.zero,
               offsetY: 0.5.px,
-              blur: 2.px,
-              spread: 1.px,
+              blur: 3.px,
+              spread: 0.px,
+              color: Colors.black.withOpacity(0.12),
             )),
             child: Row(spacing: 4.px, children: <Component>[
               NavLink(
@@ -39,11 +40,11 @@ getRoutes(BuildContext context) => <RouteBase>[
                   child: TextComponent('Projects'),
                   isActive: state.fullpath == '/projects'),
               NavLink(
-                  path: '/',
+                  path: '/resume',
                   child: TextComponent('Resume'),
                   isActive: state.fullpath == '/resume'),
               NavLink(
-                  path: '/',
+                  path: '/contact',
                   child: TextComponent('Contact'),
                   isActive: state.fullpath == '/contact'),
             ])),
