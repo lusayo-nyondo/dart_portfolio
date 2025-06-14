@@ -5,7 +5,6 @@
 // Generated with jaspr_builder
 
 import 'package:jaspr/jaspr.dart';
-import 'package:dart_portfolio/pages/about.dart' as prefix0;
 
 /// Default [JasprOptions] for use with your jaspr project.
 ///
@@ -23,5 +22,4 @@ import 'package:dart_portfolio/pages/about.dart' as prefix0;
 ///   runApp(...);
 /// }
 /// ```
-JasprOptions get defaultJasprOptions =>
-    JasprOptions(styles: () => [...prefix0.About.styles]);
+JasprOptions get defaultJasprOptions => JasprOptions(styles: () => []);

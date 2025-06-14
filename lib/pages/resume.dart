@@ -2,14 +2,14 @@ import 'package:jaspr/jaspr.dart';
 
 import 'package:dart_portfolio/components/components.dart';
 
-class Projects extends StatefulComponent {
-  const Projects({super.key});
+class Resume extends StatefulComponent {
+  const Resume({super.key});
 
   @override
-  State<Projects> createState() => ProjectsState();
+  State<Resume> createState() => ResumeState();
 }
 
-class ProjectsState extends State<Projects> {
+class ResumeState extends State<Resume> {
   @override
   void initState() {
     super.initState();
@@ -27,7 +27,7 @@ class ProjectsState extends State<Projects> {
   @override
   build(BuildContext context) sync* {
     yield Center(
-      child: TextComponent('Projects page.'),
+      child: TextComponent('Resume page.'),
     );
   }
 }
