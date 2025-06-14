@@ -3,13 +3,9 @@ import 'package:jaspr_router/jaspr_router.dart';
 
 import '../components.dart';
 
-Component Function(BuildContext context, RouteState state) _getBuilder(
-    BuildContext context,
+ShellRouteBuilder _getBuilder(BuildContext context,
     {Function(BuildContext context, RouteState state)? headerBuilder}) {
-  Component builder(BuildContext context, RouteState state) {
-    return Container();
-  }
-
+  Component builder(context, state, child) => Container();
   return builder;
 }
 
@@ -19,9 +15,12 @@ class HeaderFooterShell extends ShellRoute {
 
   final BuildContext context;
 
+  final String basename;
+
   HeaderFooterShell({
-    required super.routes,
     required this.context,
+    required super.routes,
+    required this.basename,
     this.headerBuilder,
     this.footerBuilder,
   }) : super(builder: _getBuilder(context, headerBuilder: headerBuilder));
