@@ -18,6 +18,15 @@ class App extends StatelessComponent {
     yield Container(
       height: 100.vh,
       width: 100.vw,
+      child: Container(),
+    );
+  }
+  /*
+  @override
+  Iterable<Component> build(BuildContext context) sync* {
+    yield Container(
+      height: 100.vh,
+      width: 100.vw,
       child: SidebarScaffold(
           child: Center(child: Text("Hello, World!")),
           sidebarBuilder: (context, routeState, sidebarState) => Container(
@@ -107,4 +116,5 @@ class App extends StatelessComponent {
           ],
         ));
   }
+  */
 }
