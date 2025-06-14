@@ -1,12 +1,5 @@
-import 'package:jaspr/jaspr.dart';
-import 'package:jaspr_router/jaspr_router.dart';
+part of 'navbar.dart';
 
-// Assuming '../extensions/extensions.dart' provides necessary extensions if any.
-// If it contains global styles or utility functions that simplify styling,
-// make sure they are compatible.
-
-/// A component that acts as a navigation link, automatically applying
-/// styles and/or classes based on its active state.
 class NavLink extends StatelessComponent {
   /// The path the link navigates to. This should match a route defined in Jaspr Router.
   final String path;
@@ -64,13 +57,7 @@ class NavLink extends StatelessComponent {
     // The Jaspr Styles are for specific properties not covered by Tailwind classes,
     // or for direct pixel values.
 
-    final defaultBaseStyles = Styles(
-      fontWeight: FontWeight.w500, // Medium weight
-      textDecoration: TextDecoration.none,
-      fontSize: 16.px,
-      padding: Padding.symmetric(horizontal: 16.px, vertical: 8.px),
-      radius: BorderRadius.all(Radius.circular(8.px)),
-    );
+    final defaultBaseStyles = Styles();
 
     // --- Material 3 inspired sensible defaults for active/inactive styles (using Tailwind classes) ---
     // We'll define base classes for colors and backgrounds, then use Jaspr Styles for other properties.
@@ -80,11 +67,7 @@ class NavLink extends StatelessComponent {
 
     // Determine the effective active/inactive styles, merging with defaults
     // Note: We'll primarily use classes for colors and backgrounds for Tailwind consistency.
-    final Styles effectiveActiveStyles =
-        (activeStyles ?? Styles()).combine(Styles(
-      fontWeight: FontWeight.w700, // Make active text bolder
-      // Other active-specific Jaspr styles can go here
-    ));
+    final Styles effectiveActiveStyles = (activeStyles ?? Styles());
 
     final Styles effectiveInactiveStyles =
         (inactiveStyles ?? Styles()).combine(Styles(
@@ -95,10 +78,10 @@ class NavLink extends StatelessComponent {
     String? combinedClasses;
     // Base Tailwind classes for text and background color if not overridden
     final defaultTailwindClasses =
-        'text-gray-800 hover:bg-gray-100 inline-block'; // Default text color and hover state
+        'flex items-center font-medium text-base no-underline px-4 py-2 rounded-lg text-sm gap-x-2 text-slate-600 hover:bg-slate-500 hover:text-slate-50 transition transition:duration-150'; // Default text color and hover state
     final activeTailwindClasses =
-        'text-blue-700 bg-blue-400 font-bold'; // Active text color and background
-    final inactiveTailwindClasses = 'text-gray-600'; // Inactive text color
+        'bg-slate-600 text-white'; // Active text color and background
+    final inactiveTailwindClasses = 'text-gray-700'; // Inactive text color
 
     // Start with default classes if not explicitly provided
     combinedClasses = classes ?? defaultTailwindClasses;

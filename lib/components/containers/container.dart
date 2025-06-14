@@ -30,6 +30,8 @@ class Container extends StatelessComponent {
   final Unit? height;
   final BoxConstraints? constraints;
   final Spacing? margin;
+  final String? element;
+  final String? classList;
   // final String? transform; // For CSS transform string like 'rotate(45deg)'
 
   const Container({
@@ -43,6 +45,8 @@ class Container extends StatelessComponent {
     this.height,
     this.constraints,
     this.margin,
+    this.element,
+    this.classList,
     // this.transform,
   });
 
@@ -124,8 +128,9 @@ class Container extends StatelessComponent {
     //   _transform = transform;
     // }
 
-    yield div(
-      classes: classes.join(' '),
+    yield DomComponent(
+      tag: element ?? 'div',
+      classes: "${classes.join(' ')} $classList",
       styles: Styles(
         width: _width ?? 100.percent,
         height: _height ?? 100.percent,
@@ -143,7 +148,7 @@ class Container extends StatelessComponent {
         alignItems: _alignItems,
         // transform: _transform,
       ),
-      [if (child != null) child!],
+      children: [if (child != null) child!],
     );
   }
 }
