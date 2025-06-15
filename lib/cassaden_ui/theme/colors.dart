@@ -2,7 +2,7 @@ import 'package:jaspr/jaspr.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:dart_portfolio/cassaden_ui/components/extensions/extensions.dart';
+import 'package:dart_portfolio/cassaden_ui/components/core/extensions/extensions.dart';
 
 part 'colors.g.dart';
 

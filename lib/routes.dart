@@ -19,22 +19,22 @@ getRoutes(BuildContext context) => <RouteBase>[
             Route(path: '/resume', builder: (context, state) => Resume()),
             Route(path: '/contact', builder: (context, state) => Contact()),
           ],
-          headerBuilder: (context, state) => Navbar(
-                actions: <NavLink>[
-                  NavLink(
+          headerBuilder: (context, state) => DefaultNavbar(
+                actions: <DefaultNavbarLink>[
+                  DefaultNavbarLink(
                     path: '/',
                     child: TextComponent('Home'),
                     isActive: state.fullpath == '/',
                   ),
-                  NavLink(
+                  DefaultNavbarLink(
                       path: '/projects',
                       child: TextComponent('Projects'),
                       isActive: state.fullpath == '/projects'),
-                  NavLink(
+                  DefaultNavbarLink(
                       path: '/resume',
                       child: TextComponent('Resume'),
                       isActive: state.fullpath == '/resume'),
-                  NavLink(
+                  DefaultNavbarLink(
                       path: '/contact',
                       child: TextComponent('Contact'),
                       isActive: state.fullpath == '/contact'),

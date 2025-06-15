@@ -1,9 +1,9 @@
 // lib/components/icon_button.dart
 import 'package:jaspr/jaspr.dart';
 
-import '../../assets/icon.dart';
-import '../../containers/align.dart';
-import '../../extensions/extensions.dart';
+import '../core/assets/icon.dart';
+import '../core/containers/align.dart';
+import '../core/extensions/extensions.dart';
 
 /// A Jaspr component that creates a Material Design icon button.
 ///

@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import '../../../theme/text.dart';
+import '../../theme/text.dart';
 import 'text_span.dart';
 
 /// A Jaspr component that displays text that uses multiple styles.

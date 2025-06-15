@@ -2,9 +2,9 @@ import 'package:jaspr/jaspr.dart';
 
 import 'package:universal_web/web.dart';
 
-import 'package:dart_portfolio/cassaden_ui/components/themed/scaffold/scaffold.dart'
+import 'package:dart_portfolio/cassaden_ui/components/scaffold/scaffold.dart'
     show surfaceColorVariable;
-import 'package:dart_portfolio/cassaden_ui/components/themed/forms/form.dart';
+import 'package:dart_portfolio/cassaden_ui/components/forms/form.dart';
 
 part 'text_editing_controller.dart';
 

@@ -1,6 +1,6 @@
 part of 'navbar.dart';
 
-class NavLink extends StatelessComponent {
+class DefaultNavbarLink extends StatelessComponent {
   /// The path the link navigates to. This should match a route defined in Jaspr Router.
   final String path;
 
@@ -33,7 +33,7 @@ class NavLink extends StatelessComponent {
   /// active/inactive styles.
   final Styles? styles;
 
-  const NavLink({
+  const DefaultNavbarLink({
     required this.path,
     required this.child,
     this.isActive = false, // Now an explicit parameter

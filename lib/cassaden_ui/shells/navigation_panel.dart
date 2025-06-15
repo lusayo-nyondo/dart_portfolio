@@ -4,7 +4,7 @@ import 'package:jaspr_router/jaspr_router.dart';
 import '../cassaden_ui.dart';
 
 /// Defines the display mode of a sidebar panel.
-enum SidebarMode {
+enum NavigationPanelMode {
   expanded,
   overlay,
   collapsible,
@@ -12,20 +12,20 @@ enum SidebarMode {
 }
 
 /// Represents the state of a sidebar panel.
-class SidebarPanelState {
+class NavigationPanelPanelState {
   final bool isVisible;
-  final SidebarMode mode;
+  final NavigationPanelMode mode;
 
-  const SidebarPanelState({
+  const NavigationPanelPanelState({
     this.isVisible = true,
-    this.mode = SidebarMode.expanded,
+    this.mode = NavigationPanelMode.expanded,
   });
 
-  SidebarPanelState copyWith({
+  NavigationPanelPanelState copyWith({
     bool? isVisible,
-    SidebarMode? mode,
+    NavigationPanelMode? mode,
   }) {
-    return SidebarPanelState(
+    return NavigationPanelPanelState(
       isVisible: isVisible ?? this.isVisible,
       mode: mode ?? this.mode,
     );
@@ -33,17 +33,18 @@ class SidebarPanelState {
 }
 
 /// Controller to manage the state of a sidebar panel.
-class SidebarPanelController {
-  SidebarPanelState _state;
+class NavigationPanelPanelController {
+  NavigationPanelPanelState _state;
   void Function()? _listener;
 
-  SidebarPanelController(
-      {SidebarPanelState initialState = const SidebarPanelState()})
+  NavigationPanelPanelController(
+      {NavigationPanelPanelState initialState =
+          const NavigationPanelPanelState()})
       : _state = initialState;
 
-  SidebarPanelState get state => _state;
+  NavigationPanelPanelState get state => _state;
   bool get isVisible => _state.isVisible;
-  SidebarMode get mode => _state.mode;
+  NavigationPanelMode get mode => _state.mode;
 
   void show() {
     if (!_state.isVisible) {
@@ -64,14 +65,14 @@ class SidebarPanelController {
     _notifyListeners();
   }
 
-  void setMode(SidebarMode mode) {
+  void setMode(NavigationPanelMode mode) {
     if (_state.mode != mode) {
       _state = _state.copyWith(mode: mode);
       _notifyListeners();
     }
   }
 
-  void updateState(SidebarPanelState newState) {
+  void updateState(NavigationPanelPanelState newState) {
     if (_state.isVisible != newState.isVisible ||
         _state.mode != newState.mode) {
       _state = newState;
@@ -94,21 +95,21 @@ class SidebarPanelController {
   }
 }
 
-class _SidebarShellLayout extends StatefulComponent {
+class _NavigationPanelShellLayout extends StatefulComponent {
   final Component routerChild;
   final RouteState routeState;
   final Component Function(BuildContext context, RouteState state,
-      SidebarPanelState sidebarState)? sidebarBuilder;
+      NavigationPanelPanelState sidebarState)? sidebarBuilder;
   final Component Function(BuildContext context, RouteState state,
-      SidebarPanelState detailBarState)? detailBarBuilder;
+      NavigationPanelPanelState detailBarState)? detailBarBuilder;
   final TextDirection direction;
   final Unit? sidebarMaxWidth;
   final Unit? detailBarMaxWidth;
   final Color? backgroundColor;
-  final SidebarPanelController? sidebarController;
-  final SidebarPanelController? detailBarController;
+  final NavigationPanelPanelController? sidebarController;
+  final NavigationPanelPanelController? detailBarController;
 
-  const _SidebarShellLayout({
+  const _NavigationPanelShellLayout({
     required this.routerChild,
     required this.routeState,
     this.sidebarBuilder,
@@ -122,12 +123,16 @@ class _SidebarShellLayout extends StatefulComponent {
   });
 
   @override
-  State<_SidebarShellLayout> createState() => _SidebarShellLayoutState();
+  State<_NavigationPanelShellLayout> createState() =>
+      _NavigationPanelShellLayoutState();
 }
 
-class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
-  SidebarPanelState _sidebarInternalState = const SidebarPanelState();
-  SidebarPanelState _detailBarInternalState = const SidebarPanelState();
+class _NavigationPanelShellLayoutState
+    extends State<_NavigationPanelShellLayout> {
+  NavigationPanelPanelState _sidebarInternalState =
+      const NavigationPanelPanelState();
+  NavigationPanelPanelState _detailBarInternalState =
+      const NavigationPanelPanelState();
   // RouteState? _previousRouteState; // For route change listening if needed explicitly
 
   @override
@@ -138,42 +143,46 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
     _detailBarInternalState =
         component.detailBarController?.state ?? _detailBarInternalState;
 
-    component.sidebarController?.addListener(_onSidebarControllerUpdate);
+    component.sidebarController
+        ?.addListener(_onNavigationPanelControllerUpdate);
     component.detailBarController?.addListener(_onDetailBarControllerUpdate);
     // _previousRouteState = component.routeState;
   }
 
   @override
-  void didUpdateComponent(_SidebarShellLayout oldWidget) {
+  void didUpdateComponent(_NavigationPanelShellLayout oldWidget) {
     super.didUpdateComponent(oldWidget);
     if (oldWidget.sidebarController != component.sidebarController) {
-      oldWidget.sidebarController?.removeListener(_onSidebarControllerUpdate);
-      component.sidebarController?.addListener(_onSidebarControllerUpdate);
-      _sidebarInternalState =
-          component.sidebarController?.state ?? const SidebarPanelState();
+      oldWidget.sidebarController
+          ?.removeListener(_onNavigationPanelControllerUpdate);
+      component.sidebarController
+          ?.addListener(_onNavigationPanelControllerUpdate);
+      _sidebarInternalState = component.sidebarController?.state ??
+          const NavigationPanelPanelState();
     }
     if (oldWidget.detailBarController != component.detailBarController) {
       oldWidget.detailBarController
           ?.removeListener(_onDetailBarControllerUpdate);
       component.detailBarController?.addListener(_onDetailBarControllerUpdate);
-      _detailBarInternalState =
-          component.detailBarController?.state ?? const SidebarPanelState();
+      _detailBarInternalState = component.detailBarController?.state ??
+          const NavigationPanelPanelState();
     }
 
     // if (component.routeState.location != _previousRouteState?.location) {
-    //   print('Route changed in _SidebarShellLayout: From ${_previousRouteState?.location} to ${component.routeState.location}');
+    //   print('Route changed in _NavigationPanelShellLayout: From ${_previousRouteState?.location} to ${component.routeState.location}');
     //   _previousRouteState = component.routeState;
     // }
   }
 
   @override
   void dispose() {
-    component.sidebarController?.removeListener(_onSidebarControllerUpdate);
+    component.sidebarController
+        ?.removeListener(_onNavigationPanelControllerUpdate);
     component.detailBarController?.removeListener(_onDetailBarControllerUpdate);
     super.dispose();
   }
 
-  void _onSidebarControllerUpdate() {
+  void _onNavigationPanelControllerUpdate() {
     setState(() {
       _sidebarInternalState = component.sidebarController!.state;
     });
@@ -185,7 +194,7 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
     });
   }
 
-  SidebarPanelState get _effectiveSidebarState {
+  NavigationPanelPanelState get _effectiveNavigationPanelState {
     final stateFromController =
         component.sidebarController?.state ?? _sidebarInternalState;
     return component.sidebarBuilder == null
@@ -193,7 +202,7 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
         : stateFromController;
   }
 
-  SidebarPanelState get _effectiveDetailBarState {
+  NavigationPanelPanelState get _effectiveDetailBarState {
     final stateFromController =
         component.detailBarController?.state ?? _detailBarInternalState;
     return component.detailBarBuilder == null
@@ -203,33 +212,35 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    final sidebarPanelState = _effectiveSidebarState;
+    final sidebarPanelState = _effectiveNavigationPanelState;
     final detailBarPanelState = _effectiveDetailBarState;
 
-    final bool showSidebar = sidebarPanelState.isVisible;
+    final bool showNavigationPanel = sidebarPanelState.isVisible;
     final bool showDetailBar = detailBarPanelState.isVisible;
 
-    const Unit defaultSidebarMaxWidth = Unit.pixels(240);
+    const Unit defaultNavigationPanelMaxWidth = Unit.pixels(240);
     const Unit defaultDetailBarMaxWidth = Unit.pixels(240);
 
-    final Unit effectiveSidebarMaxWidth =
-        component.sidebarMaxWidth ?? defaultSidebarMaxWidth;
+    final Unit effectiveNavigationPanelMaxWidth =
+        component.sidebarMaxWidth ?? defaultNavigationPanelMaxWidth;
     final Unit effectiveDetailBarMaxWidth =
         component.detailBarMaxWidth ?? defaultDetailBarMaxWidth;
 
     final List<Component> inFlowChildren = [];
     final List<Component> overlayChildren = [];
 
-    if (showSidebar && component.sidebarBuilder != null) {
+    if (showNavigationPanel && component.sidebarBuilder != null) {
       final sidebarContent = component.sidebarBuilder!(
           context, component.routeState, sidebarPanelState);
       final sidebarContainer = Container(
-        constraints: BoxConstraints(maxWidth: effectiveSidebarMaxWidth),
-        height: (sidebarPanelState.mode == SidebarMode.overlay) ? 100.vh : null,
+        constraints: BoxConstraints(maxWidth: effectiveNavigationPanelMaxWidth),
+        height: (sidebarPanelState.mode == NavigationPanelMode.overlay)
+            ? 100.vh
+            : null,
         child: div(
           classes: 'h-full w-full',
           [sidebarContent],
-          styles: (sidebarPanelState.mode == SidebarMode.overlay)
+          styles: (sidebarPanelState.mode == NavigationPanelMode.overlay)
               ? Styles(
                   position: Position.absolute(
                       top: 0.px,
@@ -244,7 +255,7 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
               : null,
         ),
       );
-      if (sidebarPanelState.mode == SidebarMode.overlay) {
+      if (sidebarPanelState.mode == NavigationPanelMode.overlay) {
         overlayChildren.add(sidebarContainer);
       } else {
         inFlowChildren.add(sidebarContainer);
@@ -258,12 +269,13 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
           context, component.routeState, detailBarPanelState);
       final detailBarContainer = Container(
         constraints: BoxConstraints(maxWidth: effectiveDetailBarMaxWidth),
-        height:
-            (detailBarPanelState.mode == SidebarMode.overlay) ? 100.vh : null,
+        height: (detailBarPanelState.mode == NavigationPanelMode.overlay)
+            ? 100.vh
+            : null,
         child: div(
             classes: 'h-full w-full',
             [detailBarContent],
-            styles: (detailBarPanelState.mode == SidebarMode.overlay)
+            styles: (detailBarPanelState.mode == NavigationPanelMode.overlay)
                 ? Styles(
                     position: Position.absolute(
                         top: 0.px,
@@ -277,7 +289,7 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
                     zIndex: ZIndex(10))
                 : null),
       );
-      if (detailBarPanelState.mode == SidebarMode.overlay) {
+      if (detailBarPanelState.mode == NavigationPanelMode.overlay) {
         overlayChildren.add(detailBarContainer);
       } else {
         inFlowChildren.add(detailBarContainer);
@@ -286,24 +298,28 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
 
     final List<Component> finalInFlowChildren = [];
     if (component.direction == TextDirection.ltr) {
-      if (showSidebar && sidebarPanelState.mode != SidebarMode.overlay) {
+      if (showNavigationPanel &&
+          sidebarPanelState.mode != NavigationPanelMode.overlay) {
         finalInFlowChildren.add(inFlowChildren.firstWhere((c) => true,
             orElse: () =>
                 DomComponent(tag: 'span'))); // Placeholder if not found
       }
       finalInFlowChildren.add(mainContent);
-      if (showDetailBar && detailBarPanelState.mode != SidebarMode.overlay) {
+      if (showDetailBar &&
+          detailBarPanelState.mode != NavigationPanelMode.overlay) {
         finalInFlowChildren.add(inFlowChildren.lastWhere((c) => true,
             orElse: () => DomComponent(tag: 'span')));
       }
     } else {
       // RTL
-      if (showDetailBar && detailBarPanelState.mode != SidebarMode.overlay) {
+      if (showDetailBar &&
+          detailBarPanelState.mode != NavigationPanelMode.overlay) {
         finalInFlowChildren.add(inFlowChildren.firstWhere((c) => true,
             orElse: () => DomComponent(tag: 'span')));
       }
       finalInFlowChildren.add(mainContent);
-      if (showSidebar && sidebarPanelState.mode != SidebarMode.overlay) {
+      if (showNavigationPanel &&
+          sidebarPanelState.mode != NavigationPanelMode.overlay) {
         finalInFlowChildren.add(inFlowChildren.lastWhere((c) => true,
             orElse: () => DomComponent(tag: 'span')));
       }
@@ -330,25 +346,25 @@ class _SidebarShellLayoutState extends State<_SidebarShellLayout> {
   }
 }
 
-class SidebarShell extends ShellRoute {
-  SidebarShell({
+class NavigationPanelShell extends ShellRoute {
+  NavigationPanelShell({
     required super.routes,
     Component Function(BuildContext context, RouteState state,
-            SidebarPanelState sidebarState)?
+            NavigationPanelPanelState sidebarState)?
         sidebarBuilder,
     Component Function(BuildContext context, RouteState state,
-            SidebarPanelState detailBarState)?
+            NavigationPanelPanelState detailBarState)?
         detailBarBuilder,
     TextDirection direction = TextDirection.ltr,
     Unit? sidebarMaxWidth,
     Unit? detailBarMaxWidth,
     Color? backgroundColor,
-    SidebarPanelController? sidebarController,
-    SidebarPanelController? detailBarController,
+    NavigationPanelPanelController? sidebarController,
+    NavigationPanelPanelController? detailBarController,
     Object?
         navigatorKey, // Retain if needed for advanced Jaspr routing scenarios
   }) : super(
-          builder: (context, state, child) => _SidebarShellLayout(
+          builder: (context, state, child) => _NavigationPanelShellLayout(
             routerChild: child,
             routeState: state,
             sidebarBuilder: sidebarBuilder,

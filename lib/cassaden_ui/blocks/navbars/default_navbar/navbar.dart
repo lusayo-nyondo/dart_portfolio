@@ -1,16 +1,17 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
-import '../../components.dart';
+import '../../../components/components.dart';
 
 part 'links.dart';
 
-class Navbar extends StatelessComponent {
+class DefaultNavbar extends StatelessComponent {
   final Component? leading;
   final Component? trailing;
-  final List<NavLink> actions;
+  final List<DefaultNavbarLink> actions;
 
-  const Navbar({super.key, this.leading, this.trailing, required this.actions});
+  const DefaultNavbar(
+      {super.key, this.leading, this.trailing, required this.actions});
 
   @override
   build(BuildContext context) sync* {

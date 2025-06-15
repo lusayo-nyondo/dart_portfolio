@@ -2,7 +2,7 @@ import 'package:jaspr/jaspr.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
-import '../components/extensions/extensions.dart';
+import '../components/core/extensions/extensions.dart';
 
 part 'text.g.dart';
 
