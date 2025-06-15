@@ -6,7 +6,7 @@ import 'package:dart_portfolio/cassaden_ui/cassaden_ui.dart';
 import 'page.dart';
 
 getRoutes(String baseName) {
-  NavigationPanelPanelController controller = NavigationPanelPanelController();
+  NavigationPanelController controller = NavigationPanelController();
 
   return NavigationPanelShell(
       sidebarController: controller,

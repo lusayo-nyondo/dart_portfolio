@@ -12,20 +12,20 @@ enum NavigationPanelMode {
 }
 
 /// Represents the state of a sidebar panel.
-class NavigationPanelPanelState {
+class NavigationPanelState {
   final bool isVisible;
   final NavigationPanelMode mode;
 
-  const NavigationPanelPanelState({
+  const NavigationPanelState({
     this.isVisible = true,
     this.mode = NavigationPanelMode.expanded,
   });
 
-  NavigationPanelPanelState copyWith({
+  NavigationPanelState copyWith({
     bool? isVisible,
     NavigationPanelMode? mode,
   }) {
-    return NavigationPanelPanelState(
+    return NavigationPanelState(
       isVisible: isVisible ?? this.isVisible,
       mode: mode ?? this.mode,
     );
@@ -33,16 +33,15 @@ class NavigationPanelPanelState {
 }
 
 /// Controller to manage the state of a sidebar panel.
-class NavigationPanelPanelController {
-  NavigationPanelPanelState _state;
+class NavigationPanelController {
+  NavigationPanelState _state;
   void Function()? _listener;
 
-  NavigationPanelPanelController(
-      {NavigationPanelPanelState initialState =
-          const NavigationPanelPanelState()})
+  NavigationPanelController(
+      {NavigationPanelState initialState = const NavigationPanelState()})
       : _state = initialState;
 
-  NavigationPanelPanelState get state => _state;
+  NavigationPanelState get state => _state;
   bool get isVisible => _state.isVisible;
   NavigationPanelMode get mode => _state.mode;
 
@@ -61,6 +60,7 @@ class NavigationPanelPanelController {
   }
 
   void toggle() {
+    print("Navbar controller toggled.");
     _state = _state.copyWith(isVisible: !_state.isVisible);
     _notifyListeners();
   }
@@ -72,7 +72,7 @@ class NavigationPanelPanelController {
     }
   }
 
-  void updateState(NavigationPanelPanelState newState) {
+  void updateState(NavigationPanelState newState) {
     if (_state.isVisible != newState.isVisible ||
         _state.mode != newState.mode) {
       _state = newState;
@@ -99,15 +99,15 @@ class _NavigationPanelShellLayout extends StatefulComponent {
   final Component routerChild;
   final RouteState routeState;
   final Component Function(BuildContext context, RouteState state,
-      NavigationPanelPanelState sidebarState)? sidebarBuilder;
+      NavigationPanelState sidebarState)? sidebarBuilder;
   final Component Function(BuildContext context, RouteState state,
-      NavigationPanelPanelState detailBarState)? detailBarBuilder;
+      NavigationPanelState detailBarState)? detailBarBuilder;
   final TextDirection direction;
   final Unit? sidebarMaxWidth;
   final Unit? detailBarMaxWidth;
   final Color? backgroundColor;
-  final NavigationPanelPanelController? sidebarController;
-  final NavigationPanelPanelController? detailBarController;
+  final NavigationPanelController? sidebarController;
+  final NavigationPanelController? detailBarController;
 
   const _NavigationPanelShellLayout({
     required this.routerChild,
@@ -129,10 +129,8 @@ class _NavigationPanelShellLayout extends StatefulComponent {
 
 class _NavigationPanelShellLayoutState
     extends State<_NavigationPanelShellLayout> {
-  NavigationPanelPanelState _sidebarInternalState =
-      const NavigationPanelPanelState();
-  NavigationPanelPanelState _detailBarInternalState =
-      const NavigationPanelPanelState();
+  NavigationPanelState _sidebarInternalState = const NavigationPanelState();
+  NavigationPanelState _detailBarInternalState = const NavigationPanelState();
   // RouteState? _previousRouteState; // For route change listening if needed explicitly
 
   @override
@@ -157,15 +155,15 @@ class _NavigationPanelShellLayoutState
           ?.removeListener(_onNavigationPanelControllerUpdate);
       component.sidebarController
           ?.addListener(_onNavigationPanelControllerUpdate);
-      _sidebarInternalState = component.sidebarController?.state ??
-          const NavigationPanelPanelState();
+      _sidebarInternalState =
+          component.sidebarController?.state ?? const NavigationPanelState();
     }
     if (oldWidget.detailBarController != component.detailBarController) {
       oldWidget.detailBarController
           ?.removeListener(_onDetailBarControllerUpdate);
       component.detailBarController?.addListener(_onDetailBarControllerUpdate);
-      _detailBarInternalState = component.detailBarController?.state ??
-          const NavigationPanelPanelState();
+      _detailBarInternalState =
+          component.detailBarController?.state ?? const NavigationPanelState();
     }
 
     // if (component.routeState.location != _previousRouteState?.location) {
@@ -194,7 +192,7 @@ class _NavigationPanelShellLayoutState
     });
   }
 
-  NavigationPanelPanelState get _effectiveNavigationPanelState {
+  NavigationPanelState get _effectiveNavigationPanelState {
     final stateFromController =
         component.sidebarController?.state ?? _sidebarInternalState;
     return component.sidebarBuilder == null
@@ -202,7 +200,7 @@ class _NavigationPanelShellLayoutState
         : stateFromController;
   }
 
-  NavigationPanelPanelState get _effectiveDetailBarState {
+  NavigationPanelState get _effectiveDetailBarState {
     final stateFromController =
         component.detailBarController?.state ?? _detailBarInternalState;
     return component.detailBarBuilder == null
@@ -350,17 +348,17 @@ class NavigationPanelShell extends ShellRoute {
   NavigationPanelShell({
     required super.routes,
     Component Function(BuildContext context, RouteState state,
-            NavigationPanelPanelState sidebarState)?
+            NavigationPanelState sidebarState)?
         sidebarBuilder,
     Component Function(BuildContext context, RouteState state,
-            NavigationPanelPanelState detailBarState)?
+            NavigationPanelState detailBarState)?
         detailBarBuilder,
     TextDirection direction = TextDirection.ltr,
     Unit? sidebarMaxWidth,
     Unit? detailBarMaxWidth,
     Color? backgroundColor,
-    NavigationPanelPanelController? sidebarController,
-    NavigationPanelPanelController? detailBarController,
+    NavigationPanelController? sidebarController,
+    NavigationPanelController? detailBarController,
     Object?
         navigatorKey, // Retain if needed for advanced Jaspr routing scenarios
   }) : super(

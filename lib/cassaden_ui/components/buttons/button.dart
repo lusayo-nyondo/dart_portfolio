@@ -2,7 +2,7 @@
 import 'dart:async';
 
 import 'package:jaspr/jaspr.dart';
-import 'package:universal_web/web.dart'; // Ensure this import is correct if you're using it
+import 'package:universal_web/web.dart';
 
 class ButtonStyle {
   final String? baseClasses;
@@ -31,7 +31,7 @@ const Duration _kLongPressTimeout = Duration(milliseconds: 500);
 // Abstract base class for all button types
 abstract class BaseButton extends StatefulComponent {
   final Component child;
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
   final VoidCallback? onLongPress;
   final ButtonStyle? style;
   final bool enabled;
@@ -85,9 +85,9 @@ class _BaseButtonState extends State<BaseButton> {
     if (!component.enabled) return;
     _longPressTimer?.cancel();
     _longPressTimer = null;
-    if (_isActive && !_isLongPressing && component.onPressed != null) {
+    if (_isActive && !_isLongPressing) {
       // Only call onPressed if it was a short press (not a long press)
-      component.onPressed!();
+      component.onPressed();
     }
     setState(() {
       _isActive = false;
@@ -163,6 +163,10 @@ class _BaseButtonState extends State<BaseButton> {
     return classes.join(' ');
   }
 
+  void _handleClick(Event event) {
+    component.onPressed();
+  }
+
   @override
   build(BuildContext context) sync* {
     yield button(
@@ -181,6 +185,7 @@ class _BaseButtonState extends State<BaseButton> {
         // `ontouchstart` is handled by mousedown, but touch end is separate.
         'touchend': _handleMouseUp,
         'touchcancel': _handleMouseUp, // Treat touchcancel like mouse up
+        'click': _handleClick,
       },
       [component.child], // Ensure there's always a child
     );
