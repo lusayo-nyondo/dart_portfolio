@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import '../constants/theme.dart';
+import '../../constants/theme.dart';
 
 class Counter extends StatefulComponent {
   const Counter({super.key});

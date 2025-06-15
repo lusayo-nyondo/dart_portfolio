@@ -1,7 +1,7 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
-import 'components/components.dart';
+import 'cassaden_ui/cassaden_ui.dart';
 
 import 'pages/home.dart';
 import 'pages/projects.dart';

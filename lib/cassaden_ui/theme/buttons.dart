@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'text.dart';
 
-import '../extensions/extensions.dart';
+import '../components/extensions/extensions.dart';
 
 part 'buttons.g.dart';
 

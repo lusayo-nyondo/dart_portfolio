@@ -1,7 +1,7 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
-import '../components.dart';
+import '../cassaden_ui.dart';
 
 /// Defines the display mode of a sidebar panel.
 enum SidebarMode {

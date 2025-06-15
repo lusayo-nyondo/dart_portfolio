@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import '../../theme/text.dart';
+import '../../../theme/text.dart';
 export 'text_span.dart';
 export 'rich_text.dart';
 

@@ -1,7 +1,7 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
-import '../components.dart';
+import '../components/components.dart';
 
 /// Represents the state of the header.
 class HeaderState {

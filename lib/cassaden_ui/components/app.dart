@@ -4,8 +4,7 @@ import 'package:jaspr_router/jaspr_router.dart';
 import 'package:universal_web/web.dart';
 import 'package:universal_web/js_interop.dart';
 
-import 'components.dart';
-import 'router.dart';
+import '../cassaden_ui.dart';
 
 /// The root component for a Jaspr application that provides theming and routing capabilities.
 ///

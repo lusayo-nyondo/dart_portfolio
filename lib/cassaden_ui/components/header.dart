@@ -1,7 +1,7 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
-import '../constants/theme.dart';
+import '../../constants/theme.dart';
 
 class Header extends StatelessComponent {
   const Header({super.key});
@@ -35,7 +35,7 @@ class Header extends StatelessComponent {
         css('&').styles(
           display: Display.flex,
           height: 3.em,
-          radius: BorderRadius.all(Radius.circular(10.px)), 
+          radius: BorderRadius.all(Radius.circular(10.px)),
           overflow: Overflow.clip,
           justifyContent: JustifyContent.spaceBetween,
           backgroundColor: primaryColor,
@@ -59,7 +59,8 @@ class Header extends StatelessComponent {
           css('&::before').styles(
             content: '',
             display: Display.block,
-            position: Position.absolute(bottom: 0.5.em, left: 20.px, right: 20.px),
+            position:
+                Position.absolute(bottom: 0.5.em, left: 20.px, right: 20.px),
             height: 2.px,
             radius: BorderRadius.circular(1.px),
             backgroundColor: Colors.white,

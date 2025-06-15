@@ -1,6 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 
-import 'package:dart_portfolio/components/components.dart';
+import 'package:dart_portfolio/cassaden_ui/components/components.dart';
 
 class Resume extends StatefulComponent {
   const Resume({super.key});
