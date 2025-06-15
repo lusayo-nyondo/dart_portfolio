@@ -1,21 +1,20 @@
-import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 
 import 'cassaden_ui/cassaden_ui.dart';
 
 import 'pages/home.dart';
-import 'pages/projects.dart';
+import 'pages/projects/projects.dart' as projects;
 import 'pages/resume.dart';
 import 'pages/contact.dart';
 
-getRoutes(BuildContext context) => <RouteBase>[
+getRoutes() => <RouteBase>[
       HeaderFooterShell(
           routes: <RouteBase>[
             Route(
               path: '/',
               builder: (context, state) => Home(),
             ),
-            Route(path: '/projects', builder: (context, state) => Projects()),
+            projects.getRoutes('/projects'),
             Route(path: '/resume', builder: (context, state) => Resume()),
             Route(path: '/contact', builder: (context, state) => Contact()),
           ],

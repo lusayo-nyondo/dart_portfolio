@@ -27,13 +27,14 @@ class HomeState extends State<Home> {
   @override
   build(BuildContext context) sync* {
     yield Container(
-      alignment: Alignment.center,
-      height: 100.percent,
-      width: 100.percent,
-      padding: Padding.all(16.px),
-      margin: Margin.symmetric(vertical: 4.px),
-      classList: 'bg-green-700 text-white rounded-lg',
-      child: TextComponent("Hey There. This is Lusayo Nyondo."),
-    );
+        alignment: Alignment.center,
+        height: 100.percent,
+        width: 100.percent,
+        padding: Padding.only(top: 4.px, bottom: 2.px),
+        child: Container(
+          alignment: Alignment.center,
+          classList: 'bg-green-700 text-white rounded-lg w-full h-full',
+          child: TextComponent("Hey There. This is Lusayo Nyondo."),
+        ));
   }
 }
